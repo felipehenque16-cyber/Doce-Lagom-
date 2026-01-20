@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doce Lagom - Confeitaria Artesanal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #faf8f5;
+            --cream-dark: #f3efe8;
+            --earth: #b8956c;
+            --earth-light: #d4b896;
+            --earth-dark: #9a7a55;
+            --mint: #9fb7ad;
+            --mint-light: #c2d4cc;
+            --ink: #2d2a26;
+            --ink-light: #5c5652;
+            --white: #ffffff;
+            --shadow-soft: 0 4px 20px rgba(45, 42, 38, 0.06);
+            --shadow-medium: 0 8px 32px rgba(45, 42, 38, 0.1);
+            --shadow-hover: 0 12px 40px rgba(45, 42, 38, 0.15);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== HEADER / HERO ===== */
+        .header {
+            background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
+            padding: 40px 24px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(159, 183, 173, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(184, 149, 108, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .logo-container {
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--white);
+            box-shadow: var(--shadow-medium);
+            background: var(--cream);
+        }
+
+        .logo-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--mint) 0%, var(--earth-light) 100%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--white);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .logo-placeholder span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 2px;
+        }
+
+        .brand-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-style: italic;
+            color: var(--earth);
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-description {
+            font-size: 0.95rem;
+            color: var(--ink-light);
+            max-width: 480px;
+            margin: 0 auto;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 140px;
+        }
+
+        /* ===== NAVIGATION BAR ===== */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            background: var(--white);
+            border-bottom: 1px solid rgba(184, 149, 108, 0.15);
+            padding: 12px 24px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(145deg, var(--cream) 0%, var(--cream-dark) 100%);
+            border: 1px solid rgba(184, 149, 108, 0.25);
+            color: var(--ink);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(145deg, var(--mint-light) 0%, var(--mint) 100%);
+            border-color: var(--mint);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(159, 183, 173, 0.35);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .nav-btn-icon {
+            font-size: 1.1rem;
+        }
+
+        /* ===== SECTION / CORREDOR ===== */
+        .section {
+            margin-bottom: 48px;
+            scroll-margin-top: 80px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(184, 149, 108, 0.2);
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.85rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .section-subtitle {
+            font-size: 0.9rem;
+            color: var(--ink-light);
+            font-weight: 400;
+        }
+
+        /* ===== PRODUCTS GRID ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* ===== PRODUCT CARD ===== */
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--cream) 100%);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--earth);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .product-description {
+            font-size: 0.85rem;
+            color: var(--ink-light);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .product-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--earth-dark);
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(145deg, var(--mint), var(--mint-light));
+            color: var(--white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(159, 183, 173, 0.3);
+        }
+
+        .qty-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(159, 183, 173, 0.4);
+        }
+
+        .qty-btn:active {
+            transform: scale(0.95);
+        }
+
+        .qty-display {
+            min-width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--ink);
+            background: rgba(159, 183, 173, 0.1);
+            border-radius: 8px;
+        }
+
+        /* ===== CART FOOTER ===== */
+        .cart-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-top: 1px solid rgba(184, 149, 108, 0.15);
+            padding: 16px 24px;
+            box-shadow: 0 -8px 32px rgba(45, 42, 38, 0.1);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .cart-footer.visible {
+            transform: translateY(0);
+        }
+
+        .cart-footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cart-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(145deg, var(--mint), var(--mint-light));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 16px rgba(159, 183, 173, 0.35);
+        }
+
+        .cart-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cart-items-count {
+            font-size: 0.85rem;
+            color: var(--ink-light);
+        }
+
+        .cart-total {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .checkout-btn {
+            background: linear-gradient(145deg, var(--earth), var(--earth-dark));
+            color: var(--white);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 16px rgba(184, 149, 108, 0.35);
+            white-space: nowrap;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(184, 149, 108, 0.5);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 32px 20px 48px;
+            }
+
+            .logo-placeholder {
+                width: 100px;
+                height: 100px;
+            }
+
+            .logo-placeholder span {
+                font-size: 2rem;
+            }
+
+            .brand-name {
+                font-size: 2.25rem;
+            }
+
+            .brand-tagline {
+                font-size: 1.15rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .product-image {
+                height: 220px;
+            }
+
+            .cart-footer-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .cart-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .checkout-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 1.85rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .product-name {
+                font-size: 1.2rem;
+            }
+
+            .product-price {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.15s; }
+        .product-card:nth-child(3) { animation-delay: 0.2s; }
+        .product-card:nth-child(4) { animation-delay: 0.25s; }
+        .product-card:nth-child(5) { animation-delay: 0.3s; }
+        .product-card:nth-child(6) { animation-delay: 0.35s; }
+        .product-card:nth-child(7) { animation-delay: 0.4s; }
+        .product-card:nth-child(8) { animation-delay: 0.45s; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="Doce Lagom Logo" class="logo">
+        </div>
+        <h1 class="brand-name">Doce Lagom</h1>
+        <p class="brand-tagline">Onde o menos e, deliciosamente, mais.</p>
+        <p class="brand-description">Confeitaria artesanal com docura na medida certa. Cada produto e feito com ingredientes selecionados e muito carinho.</p>
+    </header>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="nav-bar">
+        <a href="#trufas" class="nav-btn">
+            <span class="nav-btn-icon">🍫</span>
+            Trufas
+        </a>
+        <a href="#bolos" class="nav-btn">
+            <span class="nav-btn-icon">🍰</span>
+            Bolos de Pote
+        </a>
+        <a href="#combos" class="nav-btn">
+            <span class="nav-btn-icon">🎁</span>
+            Combos
+        </a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        <!-- TRUFAS -->
+        <section class="section" id="trufas">
+            <div class="section-header">
+                <h2 class="section-title">Trufas Artesanais</h2>
+                <span class="section-subtitle">8 sabores para todos os gostos</span>
+            </div>
+            <div class="products-grid">
+                <!-- Trufa de Maracuja -->
+                <article class="product-card" data-id="trufa-maracuja" data-name="Trufa de Maracuja" data-price="6.5">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1548907040-4baa42d10919?w=600&q=80" alt="Trufa de Maracuja - chocolate branco com recheio cremoso de maracuja">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Trufa de Maracuja</h3>
+                        <p class="product-description">Chocolate branco com recheio cremoso e citrico de maracuja fresco. Um equilibrio perfeito entre doce e azedinho.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 6,50</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('trufa-maracuja', -1)">-</button>
+                                <span class="qty-display" id="qty-trufa-maracuja">0</span>
+                                <button class="qty-btn" onclick="changeQty('trufa-maracuja', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trufa de Capuccino -->
+                <article class="product-card" data-id="trufa-capuccino" data-name="Trufa de Capuccino" data-price="6.5">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=600&q=80" alt="Trufa de Capuccino - chocolate ao leite com cafe e canela">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Trufa de Capuccino</h3>
+                        <p class="product-description">Chocolate ao leite com ganache de cafe espresso e um toque sutil de canela. Ideal para os amantes de cafe.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 6,50</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('trufa-capuccino', -1)">-</button>
+                                <span class="qty-display" id="qty-trufa-capuccino">0</span>
+                                <button class="qty-btn" onclick="changeQty('trufa-capuccino', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trufa de Framboesa -->
+                <article class="product-card" data-id="trufa-framboesa" data-name="Trufa de Framboesa" data-price="6.5">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=600&q=80" alt="Trufa de Framboesa - chocolate meio amargo com frutas vermelhas">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Trufa de Framboesa</h3>
+                        <p class="product-description">Chocolate meio amargo recheado com ganache de framboesa. Docura delicada com o frescor das frutas vermelhas.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 6,50</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('trufa-framboesa', -1)">-</button>
+                                <span class="qty-display" id="qty-trufa-framboesa">0</span>
+                                <button class="qty-btn" onclick="changeQty('trufa-framboesa', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trufa de Avela -->
+                <article class="product-card" data-id="trufa-avela" data-name="Trufa de Avela" data-price="7">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=600&q=80" alt="Trufa de Avela - chocolate com creme de avela crocante">
+                        <span class="product-badge">Premium</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Trufa de Avela</h3>
+                        <p class="product-description">Chocolate ao leite com cremoso recheio de avela e pedacinhos crocantes. Uma experiencia sofisticada.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 7,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('trufa-avela', -1)">-</button>
+                                <span class="qty-display" id="qty-trufa-avela">0</span>
+                                <button class="qty-btn" onclick="changeQty('trufa-avela', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trufa de Coco -->
+                <article class="product-card" data-id="trufa-coco" data-name="Trufa de Coco" data-price="6">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80" alt="Trufa de Coco - chocolate branco com coco ralado">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Trufa de Coco</h3>
+                        <p class="product-description">Chocolate branco com recheio cremoso de coco e cobertura de coco ralado. Textura macia e sabor tropical.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 6,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('trufa-coco', -1)">-</button>
+                                <span class="qty-display" id="qty-trufa-coco">0</span>
+                                <button class="qty-btn" onclick="changeQty('trufa-coco', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trufa de Limao Siciliano -->
+                <article class="product-card" data-id="trufa-limao" data-name="Trufa de Limao Siciliano" data-price="6.5">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1587132137056-bfbf0166836e?w=600&q=80" alt="Trufa de Limao Siciliano - chocolate branco com limao">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Trufa de Limao Siciliano</h3>
+                        <p class="product-description">Chocolate branco com ganache aromatica de limao siciliano. Leve, refrescante e sofisticada.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 6,50</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('trufa-limao', -1)">-</button>
+                                <span class="qty-display" id="qty-trufa-limao">0</span>
+                                <button class="qty-btn" onclick="changeQty('trufa-limao', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trufa de Morango -->
+                <article class="product-card" data-id="trufa-morango" data-name="Trufa de Morango" data-price="6.5">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600&q=80" alt="Trufa de Morango - chocolate com morango fresco">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Trufa de Morango</h3>
+                        <p class="product-description">Chocolate ao leite com recheio cremoso de morango. Combina perfeitamente frutas vermelhas e chocolate.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 6,50</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('trufa-morango', -1)">-</button>
+                                <span class="qty-display" id="qty-trufa-morango">0</span>
+                                <button class="qty-btn" onclick="changeQty('trufa-morango', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Trufa de Amendoim -->
+                <article class="product-card" data-id="trufa-amendoim" data-name="Trufa de Amendoim" data-price="6.5">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=600&q=80" alt="Trufa de Amendoim - chocolate com pasta de amendoim">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Trufa de Amendoim</h3>
+                        <p class="product-description">Chocolate ao leite com recheio cremoso de pasta de amendoim e pedacinhos crocantes. Irresistivel.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 6,50</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('trufa-amendoim', -1)">-</button>
+                                <span class="qty-display" id="qty-trufa-amendoim">0</span>
+                                <button class="qty-btn" onclick="changeQty('trufa-amendoim', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- BOLOS DE POTE -->
+        <section class="section" id="bolos">
+            <div class="section-header">
+                <h2 class="section-title">Bolos de Pote</h2>
+                <span class="section-subtitle">8 sabores para cada ocasiao</span>
+            </div>
+            <div class="products-grid">
+                <!-- Red Velvet -->
+                <article class="product-card" data-id="bolo-red-velvet" data-name="Bolo de Pote Red Velvet" data-price="14">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=600&q=80" alt="Bolo de Pote Red Velvet com cream cheese">
+                        <span class="product-badge">Favorito</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Red Velvet</h3>
+                        <p class="product-description">Camadas de massa macia vermelha intercaladas com cremoso frosting de cream cheese. Um classico sofisticado.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 14,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('bolo-red-velvet', -1)">-</button>
+                                <span class="qty-display" id="qty-bolo-red-velvet">0</span>
+                                <button class="qty-btn" onclick="changeQty('bolo-red-velvet', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Ninho com Morango -->
+                <article class="product-card" data-id="bolo-ninho-morango" data-name="Bolo de Pote Ninho com Morango" data-price="14">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80" alt="Bolo de Pote Ninho com Morango fresco">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Ninho com Morango</h3>
+                        <p class="product-description">Massa fofinha com creme de leite ninho e pedacos generosos de morango fresco. Docura irresistivel.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 14,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('bolo-ninho-morango', -1)">-</button>
+                                <span class="qty-display" id="qty-bolo-ninho-morango">0</span>
+                                <button class="qty-btn" onclick="changeQty('bolo-ninho-morango', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Brigadeiro Belga -->
+                <article class="product-card" data-id="bolo-brigadeiro" data-name="Bolo de Pote Brigadeiro Belga" data-price="13">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80" alt="Bolo de Pote Brigadeiro Belga com chocolate intenso">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Brigadeiro Belga</h3>
+                        <p class="product-description">Massa de chocolate com camadas generosas de brigadeiro belga. Chocolate intenso e macio em cada colherada.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 13,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('bolo-brigadeiro', -1)">-</button>
+                                <span class="qty-display" id="qty-bolo-brigadeiro">0</span>
+                                <button class="qty-btn" onclick="changeQty('bolo-brigadeiro', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Doce de Leite -->
+                <article class="product-card" data-id="bolo-doce-leite" data-name="Bolo de Pote Doce de Leite" data-price="13">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&q=80" alt="Bolo de Pote Doce de Leite cremoso">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Doce de Leite</h3>
+                        <p class="product-description">Massa amanteigada com camadas de doce de leite argentino. Caramelo suave e aveludado em cada camada.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 13,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('bolo-doce-leite', -1)">-</button>
+                                <span class="qty-display" id="qty-bolo-doce-leite">0</span>
+                                <button class="qty-btn" onclick="changeQty('bolo-doce-leite', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Pistache -->
+                <article class="product-card" data-id="bolo-pistache" data-name="Bolo de Pote Pistache" data-price="15">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1519869325930-281384f0e80d?w=600&q=80" alt="Bolo de Pote Pistache premium">
+                        <span class="product-badge">Premium</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Pistache</h3>
+                        <p class="product-description">Massa verde de pistache com creme italiano e pedacos crocantes. Sabor sofisticado e unico.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 15,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('bolo-pistache', -1)">-</button>
+                                <span class="qty-display" id="qty-bolo-pistache">0</span>
+                                <button class="qty-btn" onclick="changeQty('bolo-pistache', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Baunilha & Amendoas -->
+                <article class="product-card" data-id="bolo-baunilha" data-name="Bolo de Pote Baunilha e Amendoas" data-price="13">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1542826438-bd32f43d626f?w=600&q=80" alt="Bolo de Pote Baunilha com Amendoas">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Baunilha e Amendoas</h3>
+                        <p class="product-description">Massa de baunilha natural com creme de amendoas e lascas torradas. Notas delicadas e elegantes.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 13,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('bolo-baunilha', -1)">-</button>
+                                <span class="qty-display" id="qty-bolo-baunilha">0</span>
+                                <button class="qty-btn" onclick="changeQty('bolo-baunilha', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Churros -->
+                <article class="product-card" data-id="bolo-churros" data-name="Bolo de Pote Churros" data-price="14">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=600&q=80" alt="Bolo de Pote Churros com canela">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Churros</h3>
+                        <p class="product-description">Massa com canela e acucar, recheada com doce de leite cremoso. O sabor classico do churros em colheradas.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 14,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('bolo-churros', -1)">-</button>
+                                <span class="qty-display" id="qty-bolo-churros">0</span>
+                                <button class="qty-btn" onclick="changeQty('bolo-churros', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Maracuja -->
+                <article class="product-card" data-id="bolo-maracuja" data-name="Bolo de Pote Maracuja" data-price="14">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=80" alt="Bolo de Pote Maracuja cremoso">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Maracuja</h3>
+                        <p class="product-description">Massa leve com mousse de maracuja e calda da fruta. Cremoso com toque citrico refrescante.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 14,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('bolo-maracuja', -1)">-</button>
+                                <span class="qty-display" id="qty-bolo-maracuja">0</span>
+                                <button class="qty-btn" onclick="changeQty('bolo-maracuja', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- COMBOS -->
+        <section class="section" id="combos">
+            <div class="section-header">
+                <h2 class="section-title">Combos Especiais</h2>
+                <span class="section-subtitle">8 combinacoes para compartilhar</span>
+            </div>
+            <div class="products-grid">
+                <!-- Duo de Trufas -->
+                <article class="product-card" data-id="combo-duo-trufas" data-name="Combo Duo de Trufas" data-price="24">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1511381939415-e44015466834?w=600&q=80" alt="Combo Duo de Trufas sortidas">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Duo de Trufas</h3>
+                        <p class="product-description">4 trufas sortidas escolhidas a mao. Perfeito para experimentar diferentes sabores em uma so compra.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 24,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('combo-duo-trufas', -1)">-</button>
+                                <span class="qty-display" id="qty-combo-duo-trufas">0</span>
+                                <button class="qty-btn" onclick="changeQty('combo-duo-trufas', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Classico -->
+                <article class="product-card" data-id="combo-classico" data-name="Combo Classico" data-price="32">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=80" alt="Combo Classico com bolos e trufas">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Combo Classico</h3>
+                        <p class="product-description">2 bolos de pote + 2 trufas a sua escolha. A combinacao perfeita para um lanche especial.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 32,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('combo-classico', -1)">-</button>
+                                <span class="qty-display" id="qty-combo-classico">0</span>
+                                <button class="qty-btn" onclick="changeQty('combo-classico', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Mint -->
+                <article class="product-card" data-id="combo-mint" data-name="Combo Mint" data-price="34">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80" alt="Combo Mint com sabores refrescantes">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Combo Mint</h3>
+                        <p class="product-description">Trufas citricas + bolo de pote de pistache. Sabores refrescantes e sofisticados reunidos.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 34,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('combo-mint', -1)">-</button>
+                                <span class="qty-display" id="qty-combo-mint">0</span>
+                                <button class="qty-btn" onclick="changeQty('combo-mint', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Amanhecer -->
+                <article class="product-card" data-id="combo-amanhecer" data-name="Combo Amanhecer" data-price="36">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600&q=80" alt="Combo Amanhecer com frutas">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Combo Amanhecer</h3>
+                        <p class="product-description">Selecao cremosa com frutas frescas. Ideal para comecar o dia com sabor e energia.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 36,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('combo-amanhecer', -1)">-</button>
+                                <span class="qty-display" id="qty-combo-amanhecer">0</span>
+                                <button class="qty-btn" onclick="changeQty('combo-amanhecer', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Familia -->
+                <article class="product-card" data-id="combo-familia" data-name="Combo Familia" data-price="48">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=600&q=80" alt="Combo Familia para compartilhar">
+                        <span class="product-badge">Mais Vendido</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Combo Familia</h3>
+                        <p class="product-description">4 bolos de pote + 6 trufas sortidas. Perfeito para reunioes em familia ou com amigos.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 48,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('combo-familia', -1)">-</button>
+                                <span class="qty-display" id="qty-combo-familia">0</span>
+                                <button class="qty-btn" onclick="changeQty('combo-familia', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Experiencia Lagom -->
+                <article class="product-card" data-id="combo-experiencia" data-name="Combo Experiencia Lagom" data-price="54">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=600&q=80" alt="Combo Experiencia Lagom premium">
+                        <span class="product-badge">Premium</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Experiencia Lagom</h3>
+                        <p class="product-description">Mix premium para ocasioes especiais. Selecao dos melhores produtos da casa em uma experiencia completa.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 54,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('combo-experiencia', -1)">-</button>
+                                <span class="qty-display" id="qty-combo-experiencia">0</span>
+                                <button class="qty-btn" onclick="changeQty('combo-experiencia', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Degustacao -->
+                <article class="product-card" data-id="combo-degustacao" data-name="Combo Degustacao" data-price="42">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1582716401301-b2407dc7563d?w=600&q=80" alt="Combo Degustacao com trufas sortidas">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Combo Degustacao</h3>
+                        <p class="product-description">8 trufas sortidas para provar todos os sabores. A melhor forma de conhecer nossa linha de trufas.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 42,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('combo-degustacao', -1)">-</button>
+                                <span class="qty-display" id="qty-combo-degustacao">0</span>
+                                <button class="qty-btn" onclick="changeQty('combo-degustacao', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Presente Especial -->
+                <article class="product-card" data-id="combo-presente" data-name="Combo Presente Especial" data-price="58">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?w=600&q=80" alt="Combo Presente Especial em caixa gift">
+                        <span class="product-badge">Gift</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Presente Especial</h3>
+                        <p class="product-description">Selecao completa em caixa gift especial. O presente perfeito para surpreender quem voce ama.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 58,00</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQty('combo-presente', -1)">-</button>
+                                <span class="qty-display" id="qty-combo-presente">0</span>
+                                <button class="qty-btn" onclick="changeQty('combo-presente', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- CART FOOTER -->
+    <div class="cart-footer" id="cart-footer">
+        <div class="cart-footer-content">
+            <div class="cart-info">
+                <div class="cart-icon">🛒</div>
+                <div class="cart-details">
+                    <span class="cart-items-count" id="cart-items-count">0 itens</span>
+                    <span class="cart-total" id="cart-total">R$ 0,00</span>
+                </div>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Finalizar Pedido</button>
+        </div>
+    </div>
+
+    <script>
+        const cart = {};
+        let totalValue = 0;
+        let totalItems = 0;
+
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function changeQty(id, change) {
+            const card = document.querySelector(`[data-id="${id}"]`);
+            if (!card) return;
+
+            const name = card.dataset.name;
+            const price = Number(card.dataset.price);
+
+            if (!cart[id]) {
+                cart[id] = { name, qty: 0, price };
+            }
+
+            cart[id].qty += change;
+            if (cart[id].qty < 0) cart[id].qty = 0;
+
+            const qtyEl = document.getElementById(`qty-${id}`);
+            if (qtyEl) qtyEl.textContent = cart[id].qty;
+
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartFooter = document.getElementById('cart-footer');
+            const itemsCount = document.getElementById('cart-items-count');
+            const totalEl = document.getElementById('cart-total');
+
+            totalValue = 0;
+            totalItems = 0;
+            let hasItems = false;
+
+            Object.keys(cart).forEach((itemId) => {
+                const item = cart[itemId];
+                if (item.qty > 0) {
+                    hasItems = true;
+                    totalItems += item.qty;
+                    totalValue += item.qty * item.price;
+                }
+            });
+
+            itemsCount.textContent = totalItems === 1 ? '1 item' : `${totalItems} itens`;
+            totalEl.textContent = formatCurrency(totalValue);
+
+            if (hasItems) {
+                cartFooter.classList.add('visible');
+            } else {
+                cartFooter.classList.remove('visible');
+            }
+        }
+
+        function checkout() {
+            if (totalValue === 0) {
+                alert('O carrinho esta vazio!');
+                return;
+            }
+
+            let message = '*🧁 NOVO PEDIDO - DOCE LAGOM 🧁*\n\n';
+            Object.keys(cart).forEach((itemId) => {
+                const item = cart[itemId];
+                if (item.qty > 0) {
+                    message += `• ${item.qty}x ${item.name} (${formatCurrency(item.qty * item.price)})\n`;
+                }
+            });
+            message += `\n*Total: ${formatCurrency(totalValue)}*`;
+
+            const phone = '5500000000000';
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
