@@ -1073,6 +1073,8 @@
                     <span class="cart-total" id="cart-total">R$ 0,00</span>
                 </div>
             </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+            <button class="clear-cart-btn" onclick="clearCart()">Limpar</button>
             <button class="checkout-btn" onclick="checkout()">Finalizar Pedido</button>
         </div>
     </div>
@@ -1140,7 +1142,7 @@
                 return;
             }
 
-            let message = '*🧁 NOVO PEDIDO - DOCE LAGOM 🧁*\n\n';
+            let message = 'NOVO PEDIDO - DOCE LAGOM\n\n';
             Object.keys(cart).forEach((itemId) => {
                 const item = cart[itemId];
                 if (item.qty > 0) {
