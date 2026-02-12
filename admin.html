@@ -364,7 +364,7 @@
             padding: 35px;
             border-radius: 24px;
             width: 90%;
-            max-width: 600px;
+            max-width: 700px;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -423,6 +423,45 @@
             border-radius: 8px;
             margin-top: 10px;
             border: 1px solid var(--bege-claro);
+        }
+
+        /* ---------- ESTILOS PARA COMBOS ---------- */
+        .grupo-combo {
+            background: var(--bege-claro);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .grupo-combo h4 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--terroso-luxo);
+            margin-bottom: 10px;
+        }
+        .sabor-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .btn-remover-sabor {
+            background: #E63946;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-adicionar-sabor {
+            background: var(--menta-seco);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            margin-top: 5px;
+            cursor: pointer;
         }
 
         /* ---------- LOGIN ---------- */
@@ -505,7 +544,7 @@
 </head>
 <body>
 
-    <!-- ---------- TELA DE LOGIN ---------- -->
+    <!-- ===== TELA DE LOGIN ===== -->
     <div id="telaLogin" class="login-overlay">
         <div class="login-box">
             <img src="https://i.pinimg.com/originals/54/2c/45/542c4582ca79a683b61ad28f926f9efd.png" style="width:100px; border-radius:50%; margin-bottom:10px;">
@@ -517,7 +556,7 @@
         </div>
     </div>
 
-    <!-- ---------- CONTEÚDO ADMIN (PROTEGIDO) ---------- -->
+    <!-- ===== CONTEÚDO ADMIN (PROTEGIDO) ===== -->
     <div id="conteudoAdmin" style="display: none; width:100%;">
 
         <!-- SIDEBAR -->
@@ -625,7 +664,7 @@
             </div>
         </div>
 
-        <!-- ---------- MODAL DE PRODUTO ---------- -->
+        <!-- ===== MODAL DE PRODUTO (com suporte a combos) ===== -->
         <div id="modalProduto" class="modal">
             <div class="modal-content">
                 <h3 id="modalTitulo">Novo Produto</h3>
@@ -644,7 +683,7 @@
 
                     <div class="form-group">
                         <label>Categoria</label>
-                        <select id="produtoCategoria" class="form-control">
+                        <select id="produtoCategoria" class="form-control" onchange="toggleTipoProduto()">
                             <option value="trufas">Trufas</option>
                             <option value="bolos">Bolos de Pote</option>
                             <option value="combos">Combos</option>
@@ -658,27 +697,41 @@
                         <img id="previewImagem" class="preview-imagem" style="display:none;">
                     </div>
 
-                    <div class="form-group">
-                        <label>Tipo de preço</label>
-                        <select id="tipoPreco" class="form-control" onchange="toggleVariacoes()">
-                            <option value="unico">Preço único</option>
-                            <option value="variacoes">Múltiplos tamanhos (trufas)</option>
-                        </select>
-                    </div>
-
-                    <!-- Área para preço único -->
-                    <div id="precoUnicoArea">
+                    <!-- Área para produtos normais (trufas/bolos) -->
+                    <div id="areaPrecoNormal" style="display: block;">
                         <div class="form-group">
-                            <label>Preço (R$)</label>
-                            <input type="number" id="produtoPreco" class="form-control" step="0.01" min="0">
+                            <label>Tipo de preço</label>
+                            <select id="tipoPreco" class="form-control" onchange="toggleVariacoes()">
+                                <option value="unico">Preço único</option>
+                                <option value="variacoes">Múltiplos tamanhos (trufas)</option>
+                            </select>
+                        </div>
+
+                        <div id="precoUnicoArea">
+                            <div class="form-group">
+                                <label>Preço (R$)</label>
+                                <input type="number" id="produtoPreco" class="form-control" step="0.01" min="0">
+                            </div>
+                        </div>
+
+                        <div id="variacoesArea" style="display: none;">
+                            <label>Variações de tamanho e preço</label>
+                            <div id="variacoesContainer"></div>
+                            <button type="button" class="btn btn-outline" onclick="adicionarVariacao()" style="margin-top: 10px; width: 100%;">+ Adicionar tamanho</button>
                         </div>
                     </div>
 
-                    <!-- Área para variações -->
-                    <div id="variacoesArea" style="display: none;">
-                        <label>Variações de tamanho e preço</label>
-                        <div id="variacoesContainer"></div>
-                        <button type="button" class="btn btn-outline" onclick="adicionarVariacao()" style="margin-top: 10px; width: 100%;">+ Adicionar tamanho</button>
+                    <!-- Área específica para COMBOS -->
+                    <div id="areaCombo" style="display: none;">
+                        <div class="form-group">
+                            <label>Preço do combo (R$)</label>
+                            <input type="number" id="comboPreco" class="form-control" step="0.01" min="0" value="15.00">
+                        </div>
+
+                        <div id="gruposComboContainer">
+                            <!-- grupos serão inseridos aqui -->
+                        </div>
+                        <button type="button" class="btn btn-outline" onclick="adicionarGrupoCombo()" style="margin-top: 10px; width: 100%;">+ Adicionar grupo de itens</button>
                     </div>
 
                     <div class="form-group" style="margin-top: 25px;">
@@ -694,17 +747,16 @@
             </div>
         </div>
 
-        <!-- ---------- INPUT OCULTO PARA UPLOAD ---------- -->
+        <!-- INPUT OCULTO PARA UPLOAD -->
         <input type="file" id="uploadImagemInput" accept="image/*" style="display: none;">
+    </div>
 
-    </div> <!-- fim conteudoAdmin -->
-
-    <!-- ---------- NOTIFICAÇÃO FLUTUANTE ---------- -->
+    <!-- NOTIFICAÇÃO FLUTUANTE -->
     <div id="notification" class="notification"></div>
 
     <script>
         // ============================================
-        //  ADMIN DO LAGOM - COMPLETO
+        //  ADMIN DO LAGOM - VERSÃO COMPLETA (COM COMBOS)
         // ============================================
 
         // ---------- CONSTANTES ----------
@@ -713,12 +765,12 @@
         const STORAGE_PEDIDOS = 'pedidos_lagom';
         const STORAGE_CONFIG = 'config_lagom';
 
-        let ESTOQUE_MAX = 10; // será atualizado pela config
+        let ESTOQUE_MAX = 10;
         let estoqueInterno = {};
 
-        // ---------- PRODUTOS PADRÃO ----------
+        // ---------- PRODUTOS PADRÃO (com combos pré-configurados) ----------
         const produtosPadrao = [
-            // Trufas
+            // TRUFAS
             {
                 id: 'mar', nome: 'Maracujá',
                 descricao: 'Trufa cremosa com recheio de maracujá, equilibrando doçura e acidez.',
@@ -759,7 +811,7 @@
                     { tamanho: 'Mini', preco: 4, key: 'caf-mini' }
                 ]
             },
-            // Bolos
+            // BOLOS
             {
                 id: 'bn', nome: 'Bolo Ninho & Nutella',
                 descricao: 'Camadas de creme de Ninho com Nutella no pote, pura indulgência.',
@@ -778,30 +830,56 @@
                 categoria: 'bolos', imagem: 'https://i.ibb.co/wZkd0tZ8/image.png',
                 badge: '', tipoPreco: 'unico', preco: 15, key: 'bc'
             },
-            // Combos
-            {
-                id: 'kit', nome: 'Kit Degustação',
-                descricao: '5 mini trufas sortidas.',
-                categoria: 'combos', imagem: 'https://i.ibb.co/gFSmx2Cy/f1f2641a-3653-437d-b84f-52be0901330a.jpg',
-                badge: 'Especial', tipoPreco: 'unico', preco: 15, key: 'kit'
-            },
+            // COMBOS (configurados como exemplo)
             {
                 id: 'trio', nome: 'Combo Trio Médias',
                 descricao: 'Escolha 3 trufas médias dos nossos sabores favoritos.',
                 categoria: 'combos', imagem: 'https://i.ibb.co/7xV904Pc/image.png',
-                badge: 'Mais Pedido', tipoPreco: 'unico', preco: 15, key: 'trio'
+                badge: 'Mais Pedido', tipo: 'combo', preco: 15, key: 'trio',
+                grupos: [
+                    {
+                        nome: 'Escolha 3 trufas médias',
+                        limite: 3,
+                        sabores: [
+                            { nome: 'Ninho & Nutella', key: 'ni-m', preco: 0 },
+                            { nome: 'Maracujá', key: 'mar-m', preco: 0 },
+                            { nome: 'Paçoca', key: 'pa-m', preco: 0 },
+                            { nome: 'Café', key: 'caf-m', preco: 0 }
+                        ]
+                    }
+                ]
             },
             {
                 id: 'duo', nome: 'Duo Lagom',
                 descricao: '1 bolo de pote + 1 trufa média, a combinação perfeita.',
                 categoria: 'combos', imagem: 'https://i.ibb.co/DfL33q2K/image.png',
-                badge: 'Favorito', tipoPreco: 'unico', preco: 20, key: 'duo'
+                badge: 'Favorito', tipo: 'combo', preco: 20, key: 'duo',
+                grupos: [
+                    {
+                        nome: 'Escolha 1 bolo',
+                        limite: 1,
+                        sabores: [
+                            { nome: 'Ninho & Nutella', key: 'bn', preco: 0 },
+                            { nome: 'Maracujá', key: 'bm', preco: 0 },
+                            { nome: 'Chocolate', key: 'bc', preco: 0 }
+                        ]
+                    },
+                    {
+                        nome: 'Escolha 1 trufa média',
+                        limite: 1,
+                        sabores: [
+                            { nome: 'Ninho & Nutella', key: 'ni-m', preco: 0 },
+                            { nome: 'Maracujá', key: 'mar-m', preco: 0 },
+                            { nome: 'Paçoca', key: 'pa-m', preco: 0 },
+                            { nome: 'Café', key: 'caf-m', preco: 0 }
+                        ]
+                    }
+                ]
             }
         ];
 
-        // ---------- INICIALIZAÇÃO DO BANCO DE DADOS ----------
+        // ---------- INICIALIZAÇÃO ----------
         function inicializarDados() {
-            // Configuração
             let config = JSON.parse(localStorage.getItem(STORAGE_CONFIG));
             if (!config) {
                 config = { senhaAdmin: 'admin123', estoqueMax: 10 };
@@ -810,23 +888,17 @@
             ESTOQUE_MAX = config.estoqueMax || 10;
             document.getElementById('estoqueMaximoInput').value = ESTOQUE_MAX;
 
-            // Produtos
             if (!localStorage.getItem(STORAGE_PRODUTOS)) {
                 localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtosPadrao));
             }
-
-            // Estoque
             if (!localStorage.getItem(STORAGE_ESTOQUE)) {
                 localStorage.setItem(STORAGE_ESTOQUE, JSON.stringify({}));
             }
             estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
-
-            // Pedidos
             if (!localStorage.getItem(STORAGE_PEDIDOS)) {
                 localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify([]));
             }
 
-            // Renderiza tudo
             renderizarProdutos();
             renderizarEstoque();
             renderizarPedidos();
@@ -842,7 +914,7 @@
             setTimeout(() => notif.style.display = 'none', 3000);
         }
 
-        // ---------- UPLOAD DE IMAGEM ----------
+        // ---------- UPLOAD ----------
         function setupUpload() {
             const inputFile = document.getElementById('uploadImagemInput');
             inputFile.onchange = function(e) {
@@ -892,7 +964,6 @@
         function mudarSecao(secao) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(`secao${secao.charAt(0).toUpperCase() + secao.slice(1)}`).classList.add('active');
-
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(`nav${secao.charAt(0).toUpperCase() + secao.slice(1)}`).classList.add('active');
 
@@ -914,24 +985,23 @@
 
                 let variacoesHTML = '';
 
-                if (prod.tipoPreco === 'variacoes' && prod.variacoes) {
+                if (prod.categoria === 'combos' && prod.grupos) {
+                    // Exibe resumo do combo
+                    let gruposResumo = prod.grupos.map(g => `${g.nome} (${g.limite} item)`).join(', ');
+                    variacoesHTML = `<div style="margin:10px 0; font-size:0.8rem; color:var(--menta-seco);">${gruposResumo}</div>`;
+                } else if (prod.tipoPreco === 'variacoes' && prod.variacoes) {
                     let rows = '';
                     prod.variacoes.forEach(varia => {
                         const vendidos = estoqueInterno[varia.key] || 0;
                         const badgeClass = vendidos >= ESTOQUE_MAX ? 'esgotado-badge' : 'estoque-badge';
-                        rows += `<tr>
-                            <td>${varia.tamanho}</td>
-                            <td>R$ ${varia.preco.toFixed(2)}</td>
-                            <td><span class="${badgeClass}">${vendidos} / ${ESTOQUE_MAX}</span></td>
-                        </tr>`;
+                        rows += `<tr><td>${varia.tamanho}</td><td>R$ ${varia.preco.toFixed(2)}</td><td><span class="${badgeClass}">${vendidos} / ${ESTOQUE_MAX}</span></td></tr>`;
                     });
                     variacoesHTML = `<table class="variacao-table">${rows}</table>`;
                 } else {
                     const vendidos = estoqueInterno[prod.key] || 0;
                     const badgeClass = vendidos >= ESTOQUE_MAX ? 'esgotado-badge' : 'estoque-badge';
                     variacoesHTML = `<div style="display:flex; justify-content:space-between; margin:10px 0;">
-                        <span>Preço único:</span>
-                        <strong>R$ ${prod.preco.toFixed(2)}</strong>
+                        <span>Preço:</span><strong>R$ ${prod.preco?.toFixed(2) || '0,00'}</strong>
                         <span class="${badgeClass}">${vendidos} / ${ESTOQUE_MAX}</span>
                     </div>`;
                 }
@@ -957,11 +1027,11 @@
         }
 
         function categoriaPtBr(cat) {
-            const map = { trufas: 'TRUFAS', bolos: 'BOLOS DE POTE', combos: 'COMBOS' };
+            const map = { trufas: 'TRUFAS', bolos: 'BOLOS', combos: 'COMBOS' };
             return map[cat] || cat;
         }
 
-        // ---------- MODAL PRODUTO ----------
+        // ---------- MODAL PRODUTO (com suporte a combos) ----------
         let editandoProdutoId = null;
 
         window.abrirModalProduto = function(id) {
@@ -969,6 +1039,7 @@
             const modal = document.getElementById('modalProduto');
             document.getElementById('formProduto').reset();
             document.getElementById('variacoesContainer').innerHTML = '';
+            document.getElementById('gruposComboContainer').innerHTML = '';
             document.getElementById('previewImagem').style.display = 'none';
 
             if (id) {
@@ -986,16 +1057,24 @@
                         document.getElementById('previewImagem').style.display = 'block';
                     }
                     document.getElementById('produtoBadge').value = prod.badge || '';
-                    document.getElementById('tipoPreco').value = prod.tipoPreco || 'unico';
 
-                    if (prod.tipoPreco === 'unico') {
-                        document.getElementById('precoUnicoArea').style.display = 'block';
-                        document.getElementById('variacoesArea').style.display = 'none';
-                        document.getElementById('produtoPreco').value = prod.preco || 0;
+                    if (prod.categoria === 'combos') {
+                        document.getElementById('areaPrecoNormal').style.display = 'none';
+                        document.getElementById('areaCombo').style.display = 'block';
+                        document.getElementById('comboPreco').value = prod.preco || 15;
+                        if (prod.grupos) {
+                            prod.grupos.forEach(g => {
+                                adicionarGrupoCombo(g.nome, g.limite, g.sabores);
+                            });
+                        }
                     } else {
-                        document.getElementById('precoUnicoArea').style.display = 'none';
-                        document.getElementById('variacoesArea').style.display = 'block';
-                        if (prod.variacoes) {
+                        document.getElementById('areaPrecoNormal').style.display = 'block';
+                        document.getElementById('areaCombo').style.display = 'none';
+                        document.getElementById('tipoPreco').value = prod.tipoPreco || 'unico';
+                        toggleVariacoes();
+                        if (prod.tipoPreco === 'unico') {
+                            document.getElementById('produtoPreco').value = prod.preco || 0;
+                        } else if (prod.variacoes) {
                             prod.variacoes.forEach(v => adicionarVariacao(v.tamanho, v.preco, v.key));
                         }
                     }
@@ -1003,16 +1082,28 @@
             } else {
                 document.getElementById('modalTitulo').innerText = 'Novo Produto';
                 document.getElementById('produtoId').value = '';
-                document.getElementById('precoUnicoArea').style.display = 'block';
-                document.getElementById('variacoesArea').style.display = 'none';
-                document.getElementById('tipoPreco').value = 'unico';
+                document.getElementById('produtoCategoria').value = 'trufas';
+                toggleTipoProduto();
             }
-
             modal.style.display = 'flex';
         };
 
         window.fecharModalProduto = function() {
             document.getElementById('modalProduto').style.display = 'none';
+        };
+
+        window.toggleTipoProduto = function() {
+            const categoria = document.getElementById('produtoCategoria').value;
+            const areaNormal = document.getElementById('areaPrecoNormal');
+            const areaCombo = document.getElementById('areaCombo');
+
+            if (categoria === 'combos') {
+                areaNormal.style.display = 'none';
+                areaCombo.style.display = 'block';
+            } else {
+                areaNormal.style.display = 'block';
+                areaCombo.style.display = 'none';
+            }
         };
 
         window.toggleVariacoes = function() {
@@ -1023,10 +1114,6 @@
             } else {
                 document.getElementById('precoUnicoArea').style.display = 'none';
                 document.getElementById('variacoesArea').style.display = 'block';
-                if (document.getElementById('variacoesContainer').children.length === 0) {
-                    adicionarVariacao('Média', 6, '');
-                    adicionarVariacao('Mini', 4, '');
-                }
             }
         };
 
@@ -1045,6 +1132,82 @@
             container.appendChild(div);
         };
 
+        // ---------- FUNÇÕES PARA COMBOS ----------
+        window.adicionarGrupoCombo = function(nomeGrupo = '', limite = 1, sabores = []) {
+            const container = document.getElementById('gruposComboContainer');
+            const grupoId = 'grupo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+            
+            const div = document.createElement('div');
+            div.className = 'grupo-combo';
+            div.id = grupoId;
+            div.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h4>Grupo de itens</h4>
+                    <button type="button" onclick="this.closest('.grupo-combo').remove()" style="background:transparent; border:none; font-size:1.2rem;">🗑️</button>
+                </div>
+                <div class="form-group">
+                    <label>Nome do grupo (ex: "Escolha a trufa média")</label>
+                    <input type="text" class="form-control grupo-nome" value="${nomeGrupo}" placeholder="ex: Escolha 1 trufa média">
+                </div>
+                <div class="form-group">
+                    <label>Limite de seleção neste grupo</label>
+                    <input type="number" class="form-control grupo-limite" value="${limite}" min="1" style="width:80px;">
+                </div>
+                <div class="form-group">
+                    <label>Sabores disponíveis</label>
+                    <div class="sabores-container"></div>
+                    <button type="button" class="btn-adicionar-sabor" onclick="adicionarSabor(this)">+ Adicionar sabor</button>
+                </div>
+            `;
+            container.appendChild(div);
+
+            const saboresContainer = div.querySelector('.sabores-container');
+            if (sabores.length === 0) {
+                adicionarSabor(saboresContainer, '', '', 0);
+            } else {
+                sabores.forEach(s => adicionarSabor(saboresContainer, s.nome, s.key, s.preco || 0));
+            }
+        };
+
+        window.adicionarSabor = function(botaoOuContainer, nome = '', key = '', preco = 0) {
+            let container;
+            if (botaoOuContainer.tagName === 'BUTTON') {
+                container = botaoOuContainer.closest('.form-group').querySelector('.sabores-container');
+            } else {
+                container = botaoOuContainer;
+            }
+            const saborDiv = document.createElement('div');
+            saborDiv.className = 'sabor-item';
+            saborDiv.innerHTML = `
+                <input type="text" placeholder="Nome do sabor" class="form-control" style="flex:2;" value="${nome}">
+                <input type="text" placeholder="Chave única" class="form-control" style="flex:1;" value="${key}">
+                <input type="number" placeholder="Preço adicional (R$)" class="form-control" style="width:100px;" step="0.01" value="${preco}">
+                <button type="button" class="btn-remover-sabor" onclick="this.closest('.sabor-item').remove()">✕</button>
+            `;
+            container.appendChild(saborDiv);
+        };
+
+        function coletarDadosCombo() {
+            const grupos = [];
+            document.querySelectorAll('#gruposComboContainer .grupo-combo').forEach(grupo => {
+                const nomeGrupo = grupo.querySelector('.grupo-nome')?.value || '';
+                const limite = parseInt(grupo.querySelector('.grupo-limite')?.value, 10) || 1;
+                const sabores = [];
+                grupo.querySelectorAll('.sabor-item').forEach(item => {
+                    const inputs = item.querySelectorAll('input');
+                    const nome = inputs[0]?.value || '';
+                    const key = inputs[1]?.value || '';
+                    const preco = parseFloat(inputs[2]?.value) || 0;
+                    if (nome && key) sabores.push({ nome, key, preco });
+                });
+                if (nomeGrupo && sabores.length > 0) {
+                    grupos.push({ nome: nomeGrupo, limite, sabores });
+                }
+            });
+            return grupos;
+        }
+
+        // ---------- SUBMIT DO FORMULÁRIO ----------
         document.getElementById('formProduto').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -1054,38 +1217,39 @@
             const categoria = document.getElementById('produtoCategoria').value;
             const imagem = document.getElementById('produtoImagem').value;
             const badge = document.getElementById('produtoBadge').value;
-            const tipoPreco = document.getElementById('tipoPreco').value;
 
             let produto = {
-                id, nome, descricao, categoria, imagem, badge, tipoPreco
+                id, nome, descricao, categoria, imagem, badge
             };
 
-            if (tipoPreco === 'unico') {
-                produto.preco = parseFloat(document.getElementById('produtoPreco').value) || 0;
+            if (categoria === 'combos') {
+                produto.tipo = 'combo';
+                produto.preco = parseFloat(document.getElementById('comboPreco').value) || 0;
                 produto.key = id;
+                produto.grupos = coletarDadosCombo();
             } else {
-                const variacoes = [];
-                const itens = document.querySelectorAll('#variacoesContainer .variacao-item');
-                itens.forEach(item => {
-                    const inputs = item.querySelectorAll('input');
-                    const tamanho = inputs[0].value;
-                    const preco = parseFloat(inputs[1].value) || 0;
-                    let key = inputs[2].value;
-                    if (!key) key = `${id}-${tamanho.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`;
-                    if (tamanho && preco > 0) {
-                        variacoes.push({ tamanho, preco, key });
-                    }
-                });
-                produto.variacoes = variacoes;
+                produto.tipoPreco = document.getElementById('tipoPreco').value;
+                if (produto.tipoPreco === 'unico') {
+                    produto.preco = parseFloat(document.getElementById('produtoPreco').value) || 0;
+                    produto.key = id;
+                } else {
+                    const variacoes = [];
+                    document.querySelectorAll('#variacoesContainer .variacao-item').forEach(item => {
+                        const inputs = item.querySelectorAll('input');
+                        const tamanho = inputs[0].value;
+                        const preco = parseFloat(inputs[1].value) || 0;
+                        let key = inputs[2].value;
+                        if (!key) key = `${id}-${tamanho.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`;
+                        if (tamanho && preco > 0) variacoes.push({ tamanho, preco, key });
+                    });
+                    produto.variacoes = variacoes;
+                }
             }
 
             let produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
             const index = produtos.findIndex(p => p.id === id);
-            if (index !== -1) {
-                produtos[index] = produto;
-            } else {
-                produtos.push(produto);
-            }
+            if (index !== -1) produtos[index] = produto;
+            else produtos.push(produto);
 
             localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtos));
             mostrarNotificacao('Produto salvo com sucesso!');
@@ -1120,7 +1284,7 @@
             let chaves = new Set();
 
             produtos.forEach(prod => {
-                if (prod.tipoPreco === 'unico' && prod.key) chaves.add(prod.key);
+                if (prod.key) chaves.add(prod.key);
                 if (prod.variacoes) prod.variacoes.forEach(v => chaves.add(v.key));
             });
             Object.keys(estoqueInterno).forEach(key => chaves.add(key));
@@ -1325,7 +1489,6 @@
                 localStorage.removeItem(STORAGE_PRODUTOS);
                 localStorage.removeItem(STORAGE_ESTOQUE);
                 localStorage.removeItem(STORAGE_PEDIDOS);
-                // Mantém a config (senha)
                 inicializarDados();
                 mostrarNotificacao('Todos os dados foram resetados');
             }
