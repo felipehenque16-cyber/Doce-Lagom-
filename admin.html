@@ -6,7 +6,7 @@
     <title>Admin · Doce Lagom</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <style>
-        /* ===== CORE ===== */
+        /* ---------- RESET E CORES ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -21,7 +21,6 @@
             --texto: #3E3B39;
             --branco: #FFFFFF;
             --bege-claro: #F4F1ED;
-            --cinza-claro: #E8E6E1;
             --esgotado: #E63946;
         }
 
@@ -32,7 +31,7 @@
             min-height: 100vh;
         }
 
-        /* ===== SIDEBAR ===== */
+        /* ---------- SIDEBAR ---------- */
         .sidebar {
             width: 280px;
             background: var(--branco);
@@ -90,7 +89,7 @@
             font-size: 1.1rem;
         }
 
-        /* ===== MAIN ===== */
+        /* ---------- MAIN ---------- */
         .main {
             flex: 1;
             padding: 40px;
@@ -151,7 +150,7 @@
             background: var(--esgotado);
         }
 
-        /* ===== CARDS PRODUTO ===== */
+        /* ---------- CARDS DE PRODUTO ---------- */
         .produtos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -246,7 +245,7 @@
             font-size: 0.7rem;
         }
 
-        /* ===== ESTOQUE ===== */
+        /* ---------- ESTOQUE ---------- */
         .estoque-list {
             background: white;
             border-radius: 16px;
@@ -275,7 +274,7 @@
             border-radius: 10px;
         }
 
-        /* ===== PEDIDOS ===== */
+        /* ---------- PEDIDOS ---------- */
         .pedidos-list {
             display: flex;
             flex-direction: column;
@@ -306,7 +305,47 @@
         .status.pendente { background: #FFE4B5; color: #8B4513; }
         .status.concluido { background: #C1E1C1; color: #2F4F4F; }
 
-        /* ===== MODAL ===== */
+        /* ---------- RELATÓRIOS ---------- */
+        .relatorio-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--bege-claro);
+        }
+        .relatorio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .metric {
+            background: var(--bege-claro);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .metric span {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #777;
+        }
+        .metric strong {
+            font-size: 1.8rem;
+            color: var(--terroso-luxo);
+        }
+        .top-produtos {
+            margin-top: 30px;
+        }
+        .top-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--bege-claro);
+        }
+
+        /* ---------- MODAL ---------- */
         .modal {
             display: none;
             position: fixed;
@@ -365,7 +404,80 @@
             margin-bottom: 10px;
         }
 
-        /* ===== UTILS ===== */
+        .upload-btn {
+            background: var(--bege-claro);
+            border: 1px dashed var(--terroso-luxo);
+            color: var(--terroso-luxo);
+            padding: 10px;
+            border-radius: 12px;
+            width: 100%;
+            margin-top: 5px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .preview-imagem {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid var(--bege-claro);
+        }
+
+        /* ---------- LOGIN ---------- */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--creme-fundo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100000;
+        }
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 360px;
+            width: 90%;
+            text-align: center;
+        }
+        .login-box h2 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--terroso-luxo);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--bege-claro);
+            border-radius: 50px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .login-box button {
+            background: var(--terroso-luxo);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .login-error {
+            color: #E63946;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        /* ---------- NOTIFICAÇÃO ---------- */
         .notification {
             position: fixed;
             top: 30px;
@@ -393,750 +505,854 @@
 </head>
 <body>
 
-<!-- NOTIFICAÇÃO FLUTUANTE -->
-<div id="notification" class="notification"></div>
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-    <div class="logo">
-        <img src="https://i.pinimg.com/originals/54/2c/45/542c4582ca79a683b61ad28f926f9efd.png" alt="Doce Lagom">
-        <h1>Doce Lagom</h1>
-        <p style="font-size: 0.7rem; color: var(--menta-seco); letter-spacing: 2px; margin-top: 5px;">ADMIN</p>
-    </div>
-
-    <div id="navProdutos" class="nav-item active" onclick="mudarSecao('produtos')">
-        <i>🍰</i> PRODUTOS
-    </div>
-    <div id="navEstoque" class="nav-item" onclick="mudarSecao('estoque')">
-        <i>📦</i> ESTOQUE
-    </div>
-    <div id="navPedidos" class="nav-item" onclick="mudarSecao('pedidos')">
-        <i>📋</i> PEDIDOS
-    </div>
-    <div id="navConfig" class="nav-item" onclick="mudarSecao('config')">
-        <i>⚙️</i> CONFIGURAÇÕES
-    </div>
-
-    <div style="margin-top: 50px; padding: 20px 0; border-top: 1px solid var(--bege-claro);">
-        <div style="display: flex; gap: 15px; align-items: center;">
-            <div style="background: var(--bege-claro); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">👤</div>
-            <div>
-                <p style="font-weight: 600; font-size: 0.85rem;">Admin</p>
-                <p style="font-size: 0.65rem; color: #777;">gestor@docelagom</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CONTEÚDO PRINCIPAL -->
-<div class="main">
-    <!-- SEÇÃO PRODUTOS -->
-    <div id="secaoProdutos" class="section active">
-        <div class="section-header">
-            <h2>🍬 Catálogo de Produtos</h2>
-            <button class="btn" onclick="abrirModalProduto(null)">+ NOVO PRODUTO</button>
-        </div>
-        <div id="produtosContainer" class="produtos-grid">
-            <!-- JS irá preencher -->
+    <!-- ---------- TELA DE LOGIN ---------- -->
+    <div id="telaLogin" class="login-overlay">
+        <div class="login-box">
+            <img src="https://i.pinimg.com/originals/54/2c/45/542c4582ca79a683b61ad28f926f9efd.png" style="width:100px; border-radius:50%; margin-bottom:10px;">
+            <h2>Doce Lagom</h2>
+            <p style="margin-bottom:20px; color:var(--menta-seco);">Área administrativa</p>
+            <input type="password" id="senhaInput" placeholder="Senha" autofocus>
+            <button onclick="verificarLogin()">Entrar</button>
+            <div id="loginMensagem" class="login-error"></div>
         </div>
     </div>
 
-    <!-- SEÇÃO ESTOQUE -->
-    <div id="secaoEstoque" class="section">
-        <div class="section-header">
-            <h2>📊 Nível de Estoque</h2>
-            <button class="btn btn-outline" onclick="resetarEstoqueGlobal()">ZERAR VENDAS</button>
-        </div>
-        <div id="estoqueContainer" class="estoque-list">
-            <!-- JS irá preencher -->
-        </div>
-    </div>
+    <!-- ---------- CONTEÚDO ADMIN (PROTEGIDO) ---------- -->
+    <div id="conteudoAdmin" style="display: none; width:100%;">
 
-    <!-- SEÇÃO PEDIDOS -->
-    <div id="secaoPedidos" class="section">
-        <div class="section-header">
-            <h2>📦 Pedidos Recentes</h2>
-            <button class="btn btn-outline" onclick="adicionarPedidoExemplo()">+ ADICIONAR EXEMPLO</button>
-        </div>
-        <div id="pedidosContainer" class="pedidos-list">
-            <!-- JS irá preencher -->
-        </div>
-    </div>
-
-    <!-- SEÇÃO CONFIGURAÇÕES -->
-    <div id="secaoConfig" class="section">
-        <div class="section-header">
-            <h2>⚙️ Configurações</h2>
-        </div>
-        <div style="background: white; border-radius: 16px; padding: 30px; max-width: 600px;">
-            <h3 style="font-family: 'Cormorant Garamond'; color: var(--terroso-luxo); margin-bottom: 20px;">Limite padrão de produção</h3>
-            <div class="form-group">
-                <label>Estoque máximo por item (unidades)</label>
-                <input type="number" id="estoqueMaximoInput" class="form-control" value="10" min="1">
-            </div>
-            <button class="btn" onclick="salvarConfiguracoes()" style="margin-top: 10px;">SALVAR</button>
-            <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--bege-claro);">
-            <h3 style="font-family: 'Cormorant Garamond'; color: var(--terroso-luxo); margin-bottom: 20px;">Danger Zone</h3>
-            <button class="btn" style="background: var(--esgotado);" onclick="resetarTudo()">APAGAR TODOS OS DADOS</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL DE PRODUTO (CRIAR/EDITAR) -->
-<div id="modalProduto" class="modal">
-    <div class="modal-content">
-        <h3 id="modalTitulo">Novo Produto</h3>
-        <form id="formProduto">
-            <input type="hidden" id="produtoId" value="">
-
-            <div class="form-group">
-                <label>Nome do produto</label>
-                <input type="text" id="produtoNome" class="form-control" required>
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="https://i.pinimg.com/originals/54/2c/45/542c4582ca79a683b61ad28f926f9efd.png" alt="Doce Lagom">
+                <h1>Doce Lagom</h1>
+                <p style="font-size: 0.7rem; color: var(--menta-seco); letter-spacing: 2px; margin-top: 5px;">ADMIN</p>
             </div>
 
-            <div class="form-group">
-                <label>Descrição</label>
-                <textarea id="produtoDesc" class="form-control" rows="2"></textarea>
+            <div id="navProdutos" class="nav-item active" onclick="mudarSecao('produtos')">
+                <i>🍰</i> PRODUTOS
+            </div>
+            <div id="navEstoque" class="nav-item" onclick="mudarSecao('estoque')">
+                <i>📦</i> ESTOQUE
+            </div>
+            <div id="navPedidos" class="nav-item" onclick="mudarSecao('pedidos')">
+                <i>📋</i> PEDIDOS
+            </div>
+            <div id="navRelatorios" class="nav-item" onclick="mudarSecao('relatorios')">
+                <i>📊</i> RELATÓRIOS
+            </div>
+            <div id="navConfig" class="nav-item" onclick="mudarSecao('config')">
+                <i>⚙️</i> CONFIGURAÇÕES
             </div>
 
-            <div class="form-group">
-                <label>Categoria</label>
-                <select id="produtoCategoria" class="form-control">
-                    <option value="trufas">Trufas</option>
-                    <option value="bolos">Bolos de Pote</option>
-                    <option value="combos">Combos</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>URL da Imagem</label>
-                <input type="url" id="produtoImagem" class="form-control" placeholder="https://...">
-            </div>
-
-            <div class="form-group">
-                <label>Tipo de preço</label>
-                <select id="tipoPreco" class="form-control" onchange="toggleVariacoes()">
-                    <option value="unico">Preço único</option>
-                    <option value="variacoes">Múltiplos tamanhos (trufas)</option>
-                </select>
-            </div>
-
-            <!-- Área para preço único -->
-            <div id="precoUnicoArea">
-                <div class="form-group">
-                    <label>Preço (R$)</label>
-                    <input type="number" id="produtoPreco" class="form-control" step="0.01" min="0">
-                </div>
-            </div>
-
-            <!-- Área para variações (tamanhos) -->
-            <div id="variacoesArea" style="display: none;">
-                <label>Variações de tamanho e preço</label>
-                <div id="variacoesContainer">
-                    <!-- JS irá adicionar linhas -->
-                </div>
-                <button type="button" class="btn btn-outline" onclick="adicionarVariacao()" style="margin-top: 10px; width: 100%;">+ Adicionar tamanho</button>
-            </div>
-
-            <div class="form-group" style="margin-top: 25px;">
-                <label>Badge / Destaque (opcional)</label>
-                <input type="text" id="produtoBadge" class="form-control" placeholder="Favorito, Especial, etc">
-            </div>
-
-            <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 30px;">
-                <button type="button" class="btn btn-outline" onclick="fecharModalProduto()">Cancelar</button>
-                <button type="submit" class="btn">Salvar Produto</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-    // ============================================
-    //  ADMIN DO LAGOM - GERENCIAMENTO COMPLETO
-    // ============================================
-
-    // ---------- CONSTANTES ----------
-    const STORAGE_PRODUTOS = 'produtos_lagom';
-    const STORAGE_ESTOQUE = 'estoque_lagom';
-    const STORAGE_PEDIDOS = 'pedidos_lagom';
-    const STORAGE_CONFIG = 'config_lagom';
-
-    let ESTOQUE_MAX = 10; // valor padrão
-
-    // ---------- DADOS INICIAIS ----------
-    // Produtos padrão (caso não existam no localStorage)
-    const produtosPadrao = [
-        {
-            id: 'mar',
-            nome: 'Maracujá',
-            descricao: 'Trufa cremosa com recheio de maracujá, equilibrando doçura e acidez.',
-            categoria: 'trufas',
-            imagem: 'https://i.ibb.co/d4wBYTPT/b6e504dc-ee33-4c3e-9be3-721ed8f5c3b7.jpg',
-            badge: 'Favorito',
-            tipoPreco: 'variacoes',
-            variacoes: [
-                { tamanho: 'Média', preco: 6, key: 'mar-m' },
-                { tamanho: 'Mini', preco: 4, key: 'mar-mini' }
-            ]
-        },
-        {
-            id: 'ni',
-            nome: 'Ninho & Nutella',
-            descricao: 'Combinação irresistível de leite Ninho com Nutella em uma trufa macia.',
-            categoria: 'trufas',
-            imagem: 'https://i.ibb.co/vCYCLvML/image.png',
-            badge: 'Favorito',
-            tipoPreco: 'variacoes',
-            variacoes: [
-                { tamanho: 'Média', preco: 6, key: 'ni-m' },
-                { tamanho: 'Mini', preco: 4, key: 'ni-mini' }
-            ]
-        },
-        {
-            id: 'pa',
-            nome: 'Paçoca',
-            descricao: 'Trufa com o sabor clássico da paçoca, crocante e irresistível.',
-            categoria: 'trufas',
-            imagem: 'https://i.ibb.co/JjrwS6gV/4e7c1bd3-101a-47cd-8f6c-dbbaf1f42caf.jpg',
-            badge: '',
-            tipoPreco: 'variacoes',
-            variacoes: [
-                { tamanho: 'Média', preco: 6, key: 'pa-m' },
-                { tamanho: 'Mini', preco: 4, key: 'pa-mini' }
-            ]
-        },
-        {
-            id: 'caf',
-            nome: 'Café',
-            descricao: 'Trufa com intenso sabor de café, perfeita para os amantes da bebida.',
-            categoria: 'trufas',
-            imagem: 'https://i.ibb.co/0jmQ2JwH/91d96de8-2f80-48fa-a370-7d775f17eb8d.jpg',
-            badge: '',
-            tipoPreco: 'variacoes',
-            variacoes: [
-                { tamanho: 'Média', preco: 6, key: 'caf-m' },
-                { tamanho: 'Mini', preco: 4, key: 'caf-mini' }
-            ]
-        },
-        {
-            id: 'bn',
-            nome: 'Bolo Ninho & Nutella',
-            descricao: 'Camadas de creme de Ninho com Nutella no pote, pura indulgência.',
-            categoria: 'bolos',
-            imagem: 'https://i.ibb.co/vxf8TJDv/Cantinho-da-G-Wordmark-Logo-1.png',
-            badge: '',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'bn'
-        },
-        {
-            id: 'bm',
-            nome: 'Bolo Maracujá',
-            descricao: 'Bolo de pote refrescante com creme de maracujá e massa fofinha.',
-            categoria: 'bolos',
-            imagem: 'https://i.ibb.co/gFXm5yhG/Cantinho-da-G-Wordmark-Logo.png',
-            badge: '',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'bm'
-        },
-        {
-            id: 'bc',
-            nome: 'Bolo Chocolate',
-            descricao: 'Bolo de pote de chocolate intenso, para os chocólatras de plantão.',
-            categoria: 'bolos',
-            imagem: 'https://i.ibb.co/wZkd0tZ8/image.png',
-            badge: '',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'bc'
-        },
-        {
-            id: 'kit',
-            nome: 'Kit Degustação',
-            descricao: '5 mini trufas sortidas.',
-            categoria: 'combos',
-            imagem: 'https://i.ibb.co/gFSmx2Cy/f1f2641a-3653-437d-b84f-52be0901330a.jpg',
-            badge: 'Especial',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'kit'
-        },
-        {
-            id: 'trio',
-            nome: 'Combo Trio Médias',
-            descricao: 'Escolha 3 trufas médias dos nossos sabores favoritos.',
-            categoria: 'combos',
-            imagem: 'https://i.ibb.co/7xV904Pc/image.png',
-            badge: 'Mais Pedido',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'trio'
-        },
-        {
-            id: 'duo',
-            nome: 'Duo Lagom',
-            descricao: '1 bolo de pote + 1 trufa média, a combinação perfeita.',
-            categoria: 'combos',
-            imagem: 'https://i.ibb.co/DfL33q2K/image.png',
-            badge: 'Favorito',
-            tipoPreco: 'unico',
-            preco: 20,
-            key: 'duo'
-        }
-    ];
-
-    // ---------- INICIALIZAÇÃO ----------
-    function inicializarDados() {
-        // Carregar configuração
-        let config = JSON.parse(localStorage.getItem(STORAGE_CONFIG)) || {};
-        ESTOQUE_MAX = config.estoqueMax || 10;
-        document.getElementById('estoqueMaximoInput').value = ESTOQUE_MAX;
-
-        // Produtos
-        if (!localStorage.getItem(STORAGE_PRODUTOS)) {
-            localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtosPadrao));
-        }
-
-        // Estoque
-        if (!localStorage.getItem(STORAGE_ESTOQUE)) {
-            localStorage.setItem(STORAGE_ESTOQUE, JSON.stringify({}));
-        }
-
-        // Pedidos
-        if (!localStorage.getItem(STORAGE_PEDIDOS)) {
-            localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify([]));
-        }
-
-        renderizarProdutos();
-        renderizarEstoque();
-        renderizarPedidos();
-    }
-
-    // ---------- UTILITÁRIOS ----------
-    function mostrarNotificacao(msg, tipo = 'sucesso') {
-        let notif = document.getElementById('notification');
-        notif.style.background = tipo === 'erro' ? '#E63946' : '#94745B';
-        notif.innerText = msg;
-        notif.style.display = 'block';
-        setTimeout(() => notif.style.display = 'none', 3000);
-    }
-
-    // ---------- PRODUTOS ----------
-    function renderizarProdutos() {
-        const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
-        const container = document.getElementById('produtosContainer');
-        container.innerHTML = '';
-
-        produtos.forEach(prod => {
-            const card = document.createElement('div');
-            card.className = 'produto-card';
-
-            let variacoesHTML = '';
-            let estoqueInfo = '';
-
-            if (prod.tipoPreco === 'variacoes' && prod.variacoes) {
-                let rows = '';
-                prod.variacoes.forEach(varia => {
-                    const vendidos = getEstoqueVendidos(varia.key);
-                    const disponivel = vendidos < ESTOQUE_MAX ? 'Disponível' : 'Esgotado';
-                    const badgeClass = vendidos >= ESTOQUE_MAX ? 'esgotado-badge' : 'estoque-badge';
-                    rows += `<tr>
-                        <td>${varia.tamanho}</td>
-                        <td>R$ ${varia.preco.toFixed(2)}</td>
-                        <td><span class="${badgeClass}">${vendidos} / ${ESTOQUE_MAX}</span></td>
-                    </tr>`;
-                });
-                variacoesHTML = `<table class="variacao-table">${rows}</table>`;
-            } else {
-                const vendidos = getEstoqueVendidos(prod.key);
-                const badgeClass = vendidos >= ESTOQUE_MAX ? 'esgotado-badge' : 'estoque-badge';
-                variacoesHTML = `<div style="display:flex; justify-content:space-between; margin:10px 0;">
-                    <span>Preço único:</span>
-                    <strong>R$ ${prod.preco.toFixed(2)}</strong>
-                    <span class="${badgeClass}">${vendidos} / ${ESTOQUE_MAX}</span>
-                </div>`;
-            }
-
-            card.innerHTML = `
-                <div class="produto-header">
-                    <img src="${prod.imagem || 'https://via.placeholder.com/80'}" class="produto-img" onerror="this.src='https://via.placeholder.com/80'">
-                    <div class="produto-info">
-                        <div class="produto-nome">${prod.nome}</div>
-                        <span class="produto-categoria">${categoriaPtBr(prod.categoria)}</span>
-                        ${prod.badge ? `<span style="background:var(--terroso-luxo); color:white; padding:2px 10px; border-radius:50px; font-size:0.6rem; display:inline-block; margin-top:5px;">${prod.badge}</span>` : ''}
+            <div style="margin-top: 50px; padding: 20px 0; border-top: 1px solid var(--bege-claro);">
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="background: var(--bege-claro); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">👤</div>
+                    <div>
+                        <p style="font-weight: 600; font-size: 0.85rem;">Admin</p>
+                        <p style="font-size: 0.65rem; color: #777;">gestor@docelagom</p>
+                        <button onclick="logout()" style="background:transparent; border:none; color:var(--esgotado); font-size:0.7rem; padding:0; margin-top:5px; cursor:pointer;">sair</button>
                     </div>
                 </div>
-                <div class="produto-desc">${prod.descricao}</div>
-                ${variacoesHTML}
-                <div class="acoes">
-                    <button class="btn btn-pequeno btn-outline" onclick="abrirModalProduto('${prod.id}')">Editar</button>
-                    <button class="btn btn-pequeno" style="background:var(--esgotado);" onclick="removerProduto('${prod.id}')">Remover</button>
+            </div>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main">
+
+            <!-- SEÇÃO PRODUTOS -->
+            <div id="secaoProdutos" class="section active">
+                <div class="section-header">
+                    <h2>🍬 Catálogo de Produtos</h2>
+                    <button class="btn" onclick="abrirModalProduto(null)">+ NOVO PRODUTO</button>
                 </div>
-            `;
-            container.appendChild(card);
-        });
-    }
+                <div id="produtosContainer" class="produtos-grid"></div>
+            </div>
 
-    function getEstoqueVendidos(key) {
-        let estoque = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
-        return estoque[key] || 0;
-    }
+            <!-- SEÇÃO ESTOQUE -->
+            <div id="secaoEstoque" class="section">
+                <div class="section-header">
+                    <h2>📊 Nível de Estoque</h2>
+                    <button class="btn btn-outline" onclick="resetarEstoqueGlobal()">ZERAR VENDAS</button>
+                </div>
+                <div id="estoqueContainer" class="estoque-list"></div>
+            </div>
 
-    function categoriaPtBr(cat) {
-        const map = { trufas: 'TRUFAS', bolos: 'BOLOS DE POTE', combos: 'COMBOS' };
-        return map[cat] || cat;
-    }
+            <!-- SEÇÃO PEDIDOS -->
+            <div id="secaoPedidos" class="section">
+                <div class="section-header">
+                    <h2>📦 Pedidos Recentes</h2>
+                    <button class="btn btn-outline" onclick="adicionarPedidoExemplo()">+ ADICIONAR EXEMPLO</button>
+                </div>
+                <div id="pedidosContainer" class="pedidos-list"></div>
+            </div>
 
-    // ---------- MODAL PRODUTO ----------
-    let editandoProdutoId = null;
+            <!-- SEÇÃO RELATÓRIOS -->
+            <div id="secaoRelatorios" class="section">
+                <div class="section-header">
+                    <h2>📈 Relatórios de Vendas</h2>
+                    <button class="btn btn-outline" onclick="renderizarRelatorios()">↻ Atualizar</button>
+                </div>
+                <div id="relatoriosContainer"></div>
+            </div>
 
-    window.abrirModalProduto = function(id) {
-        editandoProdutoId = id;
-        const modal = document.getElementById('modalProduto');
-        document.getElementById('formProduto').reset();
-        document.getElementById('variacoesContainer').innerHTML = '';
+            <!-- SEÇÃO CONFIGURAÇÕES -->
+            <div id="secaoConfig" class="section">
+                <div class="section-header">
+                    <h2>⚙️ Configurações</h2>
+                </div>
+                <div style="background: white; border-radius: 16px; padding: 30px; max-width: 600px;">
+                    <h3 style="font-family: 'Cormorant Garamond'; color: var(--terroso-luxo); margin-bottom: 20px;">Limite padrão de produção</h3>
+                    <div class="form-group">
+                        <label>Estoque máximo por item (unidades)</label>
+                        <input type="number" id="estoqueMaximoInput" class="form-control" value="10" min="1">
+                    </div>
+                    <button class="btn" onclick="salvarConfiguracoes()" style="margin-top: 10px;">SALVAR</button>
 
-        if (id) {
-            // Edição
-            document.getElementById('modalTitulo').innerText = 'Editar Produto';
-            const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS));
-            const prod = produtos.find(p => p.id === id);
-            if (prod) {
-                document.getElementById('produtoId').value = prod.id;
-                document.getElementById('produtoNome').value = prod.nome || '';
-                document.getElementById('produtoDesc').value = prod.descricao || '';
-                document.getElementById('produtoCategoria').value = prod.categoria || 'trufas';
-                document.getElementById('produtoImagem').value = prod.imagem || '';
-                document.getElementById('produtoBadge').value = prod.badge || '';
-                document.getElementById('tipoPreco').value = prod.tipoPreco || 'unico';
+                    <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--bege-claro);">
 
-                if (prod.tipoPreco === 'unico') {
-                    document.getElementById('precoUnicoArea').style.display = 'block';
-                    document.getElementById('variacoesArea').style.display = 'none';
-                    document.getElementById('produtoPreco').value = prod.preco || 0;
+                    <h3 style="font-family: 'Cormorant Garamond'; color: var(--terroso-luxo); margin-bottom: 20px;">Alterar senha</h3>
+                    <div class="form-group">
+                        <label>Nova senha administrativa</label>
+                        <input type="password" id="novaSenhaAdmin" class="form-control" placeholder="********">
+                    </div>
+                    <button class="btn" onclick="salvarConfiguracoes()" style="margin-top: 10px;">ALTERAR SENHA</button>
+
+                    <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--bege-claro);">
+
+                    <h3 style="font-family: 'Cormorant Garamond'; color: var(--terroso-luxo); margin-bottom: 20px;">Danger Zone</h3>
+                    <button class="btn" style="background: var(--esgotado);" onclick="resetarTudo()">APAGAR TODOS OS DADOS</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------- MODAL DE PRODUTO ---------- -->
+        <div id="modalProduto" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitulo">Novo Produto</h3>
+                <form id="formProduto">
+                    <input type="hidden" id="produtoId" value="">
+
+                    <div class="form-group">
+                        <label>Nome do produto</label>
+                        <input type="text" id="produtoNome" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descrição</label>
+                        <textarea id="produtoDesc" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select id="produtoCategoria" class="form-control">
+                            <option value="trufas">Trufas</option>
+                            <option value="bolos">Bolos de Pote</option>
+                            <option value="combos">Combos</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>URL da Imagem</label>
+                        <input type="url" id="produtoImagem" class="form-control" placeholder="https://...">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('uploadImagemInput').click()">📸 Enviar imagem do computador</button>
+                        <img id="previewImagem" class="preview-imagem" style="display:none;">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo de preço</label>
+                        <select id="tipoPreco" class="form-control" onchange="toggleVariacoes()">
+                            <option value="unico">Preço único</option>
+                            <option value="variacoes">Múltiplos tamanhos (trufas)</option>
+                        </select>
+                    </div>
+
+                    <!-- Área para preço único -->
+                    <div id="precoUnicoArea">
+                        <div class="form-group">
+                            <label>Preço (R$)</label>
+                            <input type="number" id="produtoPreco" class="form-control" step="0.01" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Área para variações -->
+                    <div id="variacoesArea" style="display: none;">
+                        <label>Variações de tamanho e preço</label>
+                        <div id="variacoesContainer"></div>
+                        <button type="button" class="btn btn-outline" onclick="adicionarVariacao()" style="margin-top: 10px; width: 100%;">+ Adicionar tamanho</button>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 25px;">
+                        <label>Badge / Destaque (opcional)</label>
+                        <input type="text" id="produtoBadge" class="form-control" placeholder="Favorito, Especial, etc">
+                    </div>
+
+                    <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 30px;">
+                        <button type="button" class="btn btn-outline" onclick="fecharModalProduto()">Cancelar</button>
+                        <button type="submit" class="btn">Salvar Produto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ---------- INPUT OCULTO PARA UPLOAD ---------- -->
+        <input type="file" id="uploadImagemInput" accept="image/*" style="display: none;">
+
+    </div> <!-- fim conteudoAdmin -->
+
+    <!-- ---------- NOTIFICAÇÃO FLUTUANTE ---------- -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // ============================================
+        //  ADMIN DO LAGOM - COMPLETO
+        // ============================================
+
+        // ---------- CONSTANTES ----------
+        const STORAGE_PRODUTOS = 'produtos_lagom';
+        const STORAGE_ESTOQUE = 'estoque_lagom';
+        const STORAGE_PEDIDOS = 'pedidos_lagom';
+        const STORAGE_CONFIG = 'config_lagom';
+
+        let ESTOQUE_MAX = 10; // será atualizado pela config
+        let estoqueInterno = {};
+
+        // ---------- PRODUTOS PADRÃO ----------
+        const produtosPadrao = [
+            // Trufas
+            {
+                id: 'mar', nome: 'Maracujá',
+                descricao: 'Trufa cremosa com recheio de maracujá, equilibrando doçura e acidez.',
+                categoria: 'trufas', imagem: 'https://i.ibb.co/d4wBYTPT/b6e504dc-ee33-4c3e-9be3-721ed8f5c3b7.jpg',
+                badge: 'Favorito', tipoPreco: 'variacoes',
+                variacoes: [
+                    { tamanho: 'Média', preco: 6, key: 'mar-m' },
+                    { tamanho: 'Mini', preco: 4, key: 'mar-mini' }
+                ]
+            },
+            {
+                id: 'ni', nome: 'Ninho & Nutella',
+                descricao: 'Combinação irresistível de leite Ninho com Nutella em uma trufa macia.',
+                categoria: 'trufas', imagem: 'https://i.ibb.co/vCYCLvML/image.png',
+                badge: 'Favorito', tipoPreco: 'variacoes',
+                variacoes: [
+                    { tamanho: 'Média', preco: 6, key: 'ni-m' },
+                    { tamanho: 'Mini', preco: 4, key: 'ni-mini' }
+                ]
+            },
+            {
+                id: 'pa', nome: 'Paçoca',
+                descricao: 'Trufa com o sabor clássico da paçoca, crocante e irresistível.',
+                categoria: 'trufas', imagem: 'https://i.ibb.co/JjrwS6gV/4e7c1bd3-101a-47cd-8f6c-dbbaf1f42caf.jpg',
+                badge: '', tipoPreco: 'variacoes',
+                variacoes: [
+                    { tamanho: 'Média', preco: 6, key: 'pa-m' },
+                    { tamanho: 'Mini', preco: 4, key: 'pa-mini' }
+                ]
+            },
+            {
+                id: 'caf', nome: 'Café',
+                descricao: 'Trufa com intenso sabor de café, perfeita para os amantes da bebida.',
+                categoria: 'trufas', imagem: 'https://i.ibb.co/0jmQ2JwH/91d96de8-2f80-48fa-a370-7d775f17eb8d.jpg',
+                badge: '', tipoPreco: 'variacoes',
+                variacoes: [
+                    { tamanho: 'Média', preco: 6, key: 'caf-m' },
+                    { tamanho: 'Mini', preco: 4, key: 'caf-mini' }
+                ]
+            },
+            // Bolos
+            {
+                id: 'bn', nome: 'Bolo Ninho & Nutella',
+                descricao: 'Camadas de creme de Ninho com Nutella no pote, pura indulgência.',
+                categoria: 'bolos', imagem: 'https://i.ibb.co/vxf8TJDv/Cantinho-da-G-Wordmark-Logo-1.png',
+                badge: '', tipoPreco: 'unico', preco: 15, key: 'bn'
+            },
+            {
+                id: 'bm', nome: 'Bolo Maracujá',
+                descricao: 'Bolo de pote refrescante com creme de maracujá e massa fofinha.',
+                categoria: 'bolos', imagem: 'https://i.ibb.co/gFXm5yhG/Cantinho-da-G-Wordmark-Logo.png',
+                badge: '', tipoPreco: 'unico', preco: 15, key: 'bm'
+            },
+            {
+                id: 'bc', nome: 'Bolo Chocolate',
+                descricao: 'Bolo de pote de chocolate intenso, para os chocólatras de plantão.',
+                categoria: 'bolos', imagem: 'https://i.ibb.co/wZkd0tZ8/image.png',
+                badge: '', tipoPreco: 'unico', preco: 15, key: 'bc'
+            },
+            // Combos
+            {
+                id: 'kit', nome: 'Kit Degustação',
+                descricao: '5 mini trufas sortidas.',
+                categoria: 'combos', imagem: 'https://i.ibb.co/gFSmx2Cy/f1f2641a-3653-437d-b84f-52be0901330a.jpg',
+                badge: 'Especial', tipoPreco: 'unico', preco: 15, key: 'kit'
+            },
+            {
+                id: 'trio', nome: 'Combo Trio Médias',
+                descricao: 'Escolha 3 trufas médias dos nossos sabores favoritos.',
+                categoria: 'combos', imagem: 'https://i.ibb.co/7xV904Pc/image.png',
+                badge: 'Mais Pedido', tipoPreco: 'unico', preco: 15, key: 'trio'
+            },
+            {
+                id: 'duo', nome: 'Duo Lagom',
+                descricao: '1 bolo de pote + 1 trufa média, a combinação perfeita.',
+                categoria: 'combos', imagem: 'https://i.ibb.co/DfL33q2K/image.png',
+                badge: 'Favorito', tipoPreco: 'unico', preco: 20, key: 'duo'
+            }
+        ];
+
+        // ---------- INICIALIZAÇÃO DO BANCO DE DADOS ----------
+        function inicializarDados() {
+            // Configuração
+            let config = JSON.parse(localStorage.getItem(STORAGE_CONFIG));
+            if (!config) {
+                config = { senhaAdmin: 'admin123', estoqueMax: 10 };
+                localStorage.setItem(STORAGE_CONFIG, JSON.stringify(config));
+            }
+            ESTOQUE_MAX = config.estoqueMax || 10;
+            document.getElementById('estoqueMaximoInput').value = ESTOQUE_MAX;
+
+            // Produtos
+            if (!localStorage.getItem(STORAGE_PRODUTOS)) {
+                localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtosPadrao));
+            }
+
+            // Estoque
+            if (!localStorage.getItem(STORAGE_ESTOQUE)) {
+                localStorage.setItem(STORAGE_ESTOQUE, JSON.stringify({}));
+            }
+            estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
+
+            // Pedidos
+            if (!localStorage.getItem(STORAGE_PEDIDOS)) {
+                localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify([]));
+            }
+
+            // Renderiza tudo
+            renderizarProdutos();
+            renderizarEstoque();
+            renderizarPedidos();
+            renderizarRelatorios();
+        }
+
+        // ---------- NOTIFICAÇÃO ----------
+        function mostrarNotificacao(msg, tipo = 'sucesso') {
+            let notif = document.getElementById('notification');
+            notif.style.background = tipo === 'erro' ? '#E63946' : '#94745B';
+            notif.innerText = msg;
+            notif.style.display = 'block';
+            setTimeout(() => notif.style.display = 'none', 3000);
+        }
+
+        // ---------- UPLOAD DE IMAGEM ----------
+        function setupUpload() {
+            const inputFile = document.getElementById('uploadImagemInput');
+            inputFile.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        document.getElementById('produtoImagem').value = ev.target.result;
+                        const preview = document.getElementById('previewImagem');
+                        preview.src = ev.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+        }
+
+        // ---------- LOGIN ----------
+        function carregarConfig() {
+            let config = JSON.parse(localStorage.getItem(STORAGE_CONFIG)) || {};
+            if (!config.senhaAdmin) config.senhaAdmin = 'admin123';
+            if (!config.estoqueMax) config.estoqueMax = 10;
+            localStorage.setItem(STORAGE_CONFIG, JSON.stringify(config));
+            return config;
+        }
+
+        function verificarLogin() {
+            const senhaDigitada = document.getElementById('senhaInput').value;
+            const config = carregarConfig();
+            if (senhaDigitada === config.senhaAdmin) {
+                localStorage.setItem('logado', 'sim');
+                document.getElementById('telaLogin').style.display = 'none';
+                document.getElementById('conteudoAdmin').style.display = 'flex';
+                inicializarDados();
+            } else {
+                document.getElementById('loginMensagem').innerText = 'Senha incorreta';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('logado');
+            document.getElementById('telaLogin').style.display = 'flex';
+            document.getElementById('conteudoAdmin').style.display = 'none';
+        }
+
+        // ---------- NAVEGAÇÃO ----------
+        function mudarSecao(secao) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(`secao${secao.charAt(0).toUpperCase() + secao.slice(1)}`).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(`nav${secao.charAt(0).toUpperCase() + secao.slice(1)}`).classList.add('active');
+
+            if (secao === 'produtos') renderizarProdutos();
+            if (secao === 'estoque') renderizarEstoque();
+            if (secao === 'pedidos') renderizarPedidos();
+            if (secao === 'relatorios') renderizarRelatorios();
+        }
+
+        // ---------- PRODUTOS ----------
+        function renderizarProdutos() {
+            const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
+            const container = document.getElementById('produtosContainer');
+            container.innerHTML = '';
+
+            produtos.forEach(prod => {
+                const card = document.createElement('div');
+                card.className = 'produto-card';
+
+                let variacoesHTML = '';
+
+                if (prod.tipoPreco === 'variacoes' && prod.variacoes) {
+                    let rows = '';
+                    prod.variacoes.forEach(varia => {
+                        const vendidos = estoqueInterno[varia.key] || 0;
+                        const badgeClass = vendidos >= ESTOQUE_MAX ? 'esgotado-badge' : 'estoque-badge';
+                        rows += `<tr>
+                            <td>${varia.tamanho}</td>
+                            <td>R$ ${varia.preco.toFixed(2)}</td>
+                            <td><span class="${badgeClass}">${vendidos} / ${ESTOQUE_MAX}</span></td>
+                        </tr>`;
+                    });
+                    variacoesHTML = `<table class="variacao-table">${rows}</table>`;
                 } else {
-                    document.getElementById('precoUnicoArea').style.display = 'none';
-                    document.getElementById('variacoesArea').style.display = 'block';
-                    if (prod.variacoes) {
-                        prod.variacoes.forEach(v => adicionarVariacao(v.tamanho, v.preco, v.key));
+                    const vendidos = estoqueInterno[prod.key] || 0;
+                    const badgeClass = vendidos >= ESTOQUE_MAX ? 'esgotado-badge' : 'estoque-badge';
+                    variacoesHTML = `<div style="display:flex; justify-content:space-between; margin:10px 0;">
+                        <span>Preço único:</span>
+                        <strong>R$ ${prod.preco.toFixed(2)}</strong>
+                        <span class="${badgeClass}">${vendidos} / ${ESTOQUE_MAX}</span>
+                    </div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="produto-header">
+                        <img src="${prod.imagem || 'https://via.placeholder.com/80'}" class="produto-img" onerror="this.src='https://via.placeholder.com/80'">
+                        <div class="produto-info">
+                            <div class="produto-nome">${prod.nome}</div>
+                            <span class="produto-categoria">${categoriaPtBr(prod.categoria)}</span>
+                            ${prod.badge ? `<span style="background:var(--terroso-luxo); color:white; padding:2px 10px; border-radius:50px; font-size:0.6rem; display:inline-block; margin-top:5px;">${prod.badge}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="produto-desc">${prod.descricao}</div>
+                    ${variacoesHTML}
+                    <div class="acoes">
+                        <button class="btn btn-pequeno btn-outline" onclick="abrirModalProduto('${prod.id}')">Editar</button>
+                        <button class="btn btn-pequeno" style="background:var(--esgotado);" onclick="removerProduto('${prod.id}')">Remover</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function categoriaPtBr(cat) {
+            const map = { trufas: 'TRUFAS', bolos: 'BOLOS DE POTE', combos: 'COMBOS' };
+            return map[cat] || cat;
+        }
+
+        // ---------- MODAL PRODUTO ----------
+        let editandoProdutoId = null;
+
+        window.abrirModalProduto = function(id) {
+            editandoProdutoId = id;
+            const modal = document.getElementById('modalProduto');
+            document.getElementById('formProduto').reset();
+            document.getElementById('variacoesContainer').innerHTML = '';
+            document.getElementById('previewImagem').style.display = 'none';
+
+            if (id) {
+                document.getElementById('modalTitulo').innerText = 'Editar Produto';
+                const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS));
+                const prod = produtos.find(p => p.id === id);
+                if (prod) {
+                    document.getElementById('produtoId').value = prod.id;
+                    document.getElementById('produtoNome').value = prod.nome || '';
+                    document.getElementById('produtoDesc').value = prod.descricao || '';
+                    document.getElementById('produtoCategoria').value = prod.categoria || 'trufas';
+                    document.getElementById('produtoImagem').value = prod.imagem || '';
+                    if (prod.imagem) {
+                        document.getElementById('previewImagem').src = prod.imagem;
+                        document.getElementById('previewImagem').style.display = 'block';
+                    }
+                    document.getElementById('produtoBadge').value = prod.badge || '';
+                    document.getElementById('tipoPreco').value = prod.tipoPreco || 'unico';
+
+                    if (prod.tipoPreco === 'unico') {
+                        document.getElementById('precoUnicoArea').style.display = 'block';
+                        document.getElementById('variacoesArea').style.display = 'none';
+                        document.getElementById('produtoPreco').value = prod.preco || 0;
+                    } else {
+                        document.getElementById('precoUnicoArea').style.display = 'none';
+                        document.getElementById('variacoesArea').style.display = 'block';
+                        if (prod.variacoes) {
+                            prod.variacoes.forEach(v => adicionarVariacao(v.tamanho, v.preco, v.key));
+                        }
                     }
                 }
+            } else {
+                document.getElementById('modalTitulo').innerText = 'Novo Produto';
+                document.getElementById('produtoId').value = '';
+                document.getElementById('precoUnicoArea').style.display = 'block';
+                document.getElementById('variacoesArea').style.display = 'none';
+                document.getElementById('tipoPreco').value = 'unico';
             }
-        } else {
-            // Novo
-            document.getElementById('modalTitulo').innerText = 'Novo Produto';
-            document.getElementById('produtoId').value = '';
-            document.getElementById('precoUnicoArea').style.display = 'block';
-            document.getElementById('variacoesArea').style.display = 'none';
-            document.getElementById('tipoPreco').value = 'unico';
-        }
 
-        modal.style.display = 'flex';
-    }
-
-    window.fecharModalProduto = function() {
-        document.getElementById('modalProduto').style.display = 'none';
-    }
-
-    window.toggleVariacoes = function() {
-        const tipo = document.getElementById('tipoPreco').value;
-        if (tipo === 'unico') {
-            document.getElementById('precoUnicoArea').style.display = 'block';
-            document.getElementById('variacoesArea').style.display = 'none';
-        } else {
-            document.getElementById('precoUnicoArea').style.display = 'none';
-            document.getElementById('variacoesArea').style.display = 'block';
-            if (document.getElementById('variacoesContainer').children.length === 0) {
-                adicionarVariacao('Média', 6, '');
-                adicionarVariacao('Mini', 4, '');
-            }
-        }
-    }
-
-    window.adicionarVariacao = function(tamanho = '', preco = 0, key = '') {
-        const container = document.getElementById('variacoesContainer');
-        const div = document.createElement('div');
-        div.className = 'variacao-item';
-        div.innerHTML = `
-            <div style="display: flex; gap: 10px; align-items: center;">
-                <input type="text" placeholder="Tamanho" class="form-control" style="flex:1;" value="${tamanho}">
-                <input type="number" placeholder="Preço" class="form-control" style="width:100px;" step="0.01" value="${preco}">
-                <input type="text" placeholder="Chave (ex: mar-m)" class="form-control" style="flex:1;" value="${key}">
-                <button type="button" onclick="this.parentElement.parentElement.remove()" style="background:transparent; border:none; font-size:1.3rem; cursor:pointer;">&times;</button>
-            </div>
-        `;
-        container.appendChild(div);
-    }
-
-    // Salvar produto
-    document.getElementById('formProduto').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const id = document.getElementById('produtoId').value || gerarIdProduto(document.getElementById('produtoNome').value);
-        const nome = document.getElementById('produtoNome').value;
-        const descricao = document.getElementById('produtoDesc').value;
-        const categoria = document.getElementById('produtoCategoria').value;
-        const imagem = document.getElementById('produtoImagem').value;
-        const badge = document.getElementById('produtoBadge').value;
-        const tipoPreco = document.getElementById('tipoPreco').value;
-
-        let produto = {
-            id,
-            nome,
-            descricao,
-            categoria,
-            imagem,
-            badge,
-            tipoPreco
+            modal.style.display = 'flex';
         };
 
-        if (tipoPreco === 'unico') {
-            produto.preco = parseFloat(document.getElementById('produtoPreco').value) || 0;
-            produto.key = id; // chave para estoque
-        } else {
-            const variacoes = [];
-            const itens = document.querySelectorAll('#variacoesContainer .variacao-item');
-            itens.forEach(item => {
-                const inputs = item.querySelectorAll('input');
-                const tamanho = inputs[0].value;
-                const preco = parseFloat(inputs[1].value) || 0;
-                let key = inputs[2].value;
-                if (!key) key = `${id}-${tamanho.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`;
-                if (tamanho && preco > 0) {
-                    variacoes.push({ tamanho, preco, key });
+        window.fecharModalProduto = function() {
+            document.getElementById('modalProduto').style.display = 'none';
+        };
+
+        window.toggleVariacoes = function() {
+            const tipo = document.getElementById('tipoPreco').value;
+            if (tipo === 'unico') {
+                document.getElementById('precoUnicoArea').style.display = 'block';
+                document.getElementById('variacoesArea').style.display = 'none';
+            } else {
+                document.getElementById('precoUnicoArea').style.display = 'none';
+                document.getElementById('variacoesArea').style.display = 'block';
+                if (document.getElementById('variacoesContainer').children.length === 0) {
+                    adicionarVariacao('Média', 6, '');
+                    adicionarVariacao('Mini', 4, '');
                 }
-            });
-            produto.variacoes = variacoes;
-        }
+            }
+        };
 
-        let produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
-        const index = produtos.findIndex(p => p.id === id);
-        if (index !== -1) {
-            produtos[index] = produto;
-        } else {
-            produtos.push(produto);
-        }
+        window.adicionarVariacao = function(tamanho = '', preco = 0, key = '') {
+            const container = document.getElementById('variacoesContainer');
+            const div = document.createElement('div');
+            div.className = 'variacao-item';
+            div.innerHTML = `
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" placeholder="Tamanho" class="form-control" style="flex:1;" value="${tamanho}">
+                    <input type="number" placeholder="Preço" class="form-control" style="width:100px;" step="0.01" value="${preco}">
+                    <input type="text" placeholder="Chave" class="form-control" style="flex:1;" value="${key}">
+                    <button type="button" onclick="this.parentElement.parentElement.remove()" style="background:transparent; border:none; font-size:1.3rem; cursor:pointer;">&times;</button>
+                </div>
+            `;
+            container.appendChild(div);
+        };
 
-        localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtos));
-        mostrarNotificacao('Produto salvo com sucesso!');
-        fecharModalProduto();
-        renderizarProdutos();
-        renderizarEstoque(); // Atualiza lista de estoque
-    });
+        document.getElementById('formProduto').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    function gerarIdProduto(nome) {
-        return nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '-').substring(0, 20);
-    }
+            const id = document.getElementById('produtoId').value || gerarIdProduto(document.getElementById('produtoNome').value);
+            const nome = document.getElementById('produtoNome').value;
+            const descricao = document.getElementById('produtoDesc').value;
+            const categoria = document.getElementById('produtoCategoria').value;
+            const imagem = document.getElementById('produtoImagem').value;
+            const badge = document.getElementById('produtoBadge').value;
+            const tipoPreco = document.getElementById('tipoPreco').value;
 
-    window.removerProduto = function(id) {
-        if (confirm(`Tem certeza que deseja remover este produto?`)) {
+            let produto = {
+                id, nome, descricao, categoria, imagem, badge, tipoPreco
+            };
+
+            if (tipoPreco === 'unico') {
+                produto.preco = parseFloat(document.getElementById('produtoPreco').value) || 0;
+                produto.key = id;
+            } else {
+                const variacoes = [];
+                const itens = document.querySelectorAll('#variacoesContainer .variacao-item');
+                itens.forEach(item => {
+                    const inputs = item.querySelectorAll('input');
+                    const tamanho = inputs[0].value;
+                    const preco = parseFloat(inputs[1].value) || 0;
+                    let key = inputs[2].value;
+                    if (!key) key = `${id}-${tamanho.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`;
+                    if (tamanho && preco > 0) {
+                        variacoes.push({ tamanho, preco, key });
+                    }
+                });
+                produto.variacoes = variacoes;
+            }
+
             let produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
-            produtos = produtos.filter(p => p.id !== id);
-            localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtos));
-            mostrarNotificacao('Produto removido');
-            renderizarProdutos();
-            renderizarEstoque();
-        }
-    }
-
-    // ---------- ESTOQUE ----------
-    function renderizarEstoque() {
-        const estoque = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
-        const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
-        const container = document.getElementById('estoqueContainer');
-        container.innerHTML = '<h3 style="margin-bottom:20px;">📌 Itens vendidos / Limite de produção</h3>';
-
-        let lista = document.createElement('div');
-
-        // Coletar todas as chaves de estoque a partir dos produtos
-        let chaves = new Set();
-        produtos.forEach(prod => {
-            if (prod.tipoPreco === 'unico' && prod.key) chaves.add(prod.key);
-            if (prod.variacoes) prod.variacoes.forEach(v => chaves.add(v.key));
-        });
-
-        // Adicionar também chaves que existem no estoque mas não nos produtos? Vamos listar todas.
-        Object.keys(estoque).forEach(key => chaves.add(key));
-
-        chaves = Array.from(chaves).sort();
-
-        chaves.forEach(key => {
-            const vendidos = estoque[key] || 0;
-            const percent = Math.min((vendidos / ESTOQUE_MAX) * 100, 100);
-            const nomeExibicao = key; // Podemos buscar nome do produto
-            let nomeAmigavel = key;
-            // Tenta achar um produto relacionado
-            for (let prod of produtos) {
-                if (prod.key === key) { nomeAmigavel = prod.nome; break; }
-                if (prod.variacoes) {
-                    let varEncontrada = prod.variacoes.find(v => v.key === key);
-                    if (varEncontrada) { nomeAmigavel = `${prod.nome} (${varEncontrada.tamanho})`; break; }
-                }
+            const index = produtos.findIndex(p => p.id === id);
+            if (index !== -1) {
+                produtos[index] = produto;
+            } else {
+                produtos.push(produto);
             }
 
-            const item = document.createElement('div');
-            item.className = 'estoque-item';
-            item.innerHTML = `
-                <div style="flex:2;">
-                    <strong>${nomeAmigavel}</strong><br>
-                    <span style="font-size:0.7rem; color:#777;">${key}</span>
-                </div>
-                <div style="flex:1; text-align:center;">
-                    <span style="font-weight:600;">${vendidos}</span> / ${ESTOQUE_MAX}
-                </div>
-                <div style="flex:2;">
-                    <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>
-                </div>
-                <div>
-                    <button class="btn btn-pequeno btn-outline" onclick="zerarEstoqueItem('${key}')" style="padding:5px 10px;">Zerar</button>
-                </div>
-            `;
-            lista.appendChild(item);
+            localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtos));
+            mostrarNotificacao('Produto salvo com sucesso!');
+            fecharModalProduto();
+            renderizarProdutos();
+            renderizarEstoque();
         });
 
-        container.appendChild(lista);
-    }
+        function gerarIdProduto(nome) {
+            return nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '-').substring(0, 20);
+        }
 
-    window.zerarEstoqueItem = function(key) {
-        let estoque = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
-        delete estoque[key];
-        localStorage.setItem(STORAGE_ESTOQUE, JSON.stringify(estoque));
-        mostrarNotificacao(`Estoque de ${key} zerado`);
-        renderizarEstoque();
-        renderizarProdutos(); // atualiza badges
-    };
+        window.removerProduto = function(id) {
+            if (confirm('Tem certeza que deseja remover este produto?')) {
+                let produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
+                produtos = produtos.filter(p => p.id !== id);
+                localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtos));
+                mostrarNotificacao('Produto removido');
+                renderizarProdutos();
+                renderizarEstoque();
+            }
+        };
 
-    window.resetarEstoqueGlobal = function() {
-        if (confirm('Zerar TODOS os itens vendidos?')) {
-            localStorage.setItem(STORAGE_ESTOQUE, JSON.stringify({}));
-            mostrarNotificacao('Todos os estoques foram zerados');
+        // ---------- ESTOQUE ----------
+        function renderizarEstoque() {
+            estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
+            const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
+            const container = document.getElementById('estoqueContainer');
+            container.innerHTML = '<h3 style="margin-bottom:20px;">📌 Itens vendidos / Limite de produção</h3>';
+
+            let lista = document.createElement('div');
+            let chaves = new Set();
+
+            produtos.forEach(prod => {
+                if (prod.tipoPreco === 'unico' && prod.key) chaves.add(prod.key);
+                if (prod.variacoes) prod.variacoes.forEach(v => chaves.add(v.key));
+            });
+            Object.keys(estoqueInterno).forEach(key => chaves.add(key));
+            chaves = Array.from(chaves).sort();
+
+            chaves.forEach(key => {
+                const vendidos = estoqueInterno[key] || 0;
+                const percent = Math.min((vendidos / ESTOQUE_MAX) * 100, 100);
+                let nomeAmigavel = key;
+                for (let prod of produtos) {
+                    if (prod.key === key) { nomeAmigavel = prod.nome; break; }
+                    if (prod.variacoes) {
+                        let varEncontrada = prod.variacoes.find(v => v.key === key);
+                        if (varEncontrada) { nomeAmigavel = `${prod.nome} (${varEncontrada.tamanho})`; break; }
+                    }
+                }
+
+                const item = document.createElement('div');
+                item.className = 'estoque-item';
+                item.innerHTML = `
+                    <div style="flex:2;">
+                        <strong>${nomeAmigavel}</strong><br>
+                        <span style="font-size:0.7rem; color:#777;">${key}</span>
+                    </div>
+                    <div style="flex:1; text-align:center;">
+                        <span style="font-weight:600;">${vendidos}</span> / ${ESTOQUE_MAX}
+                    </div>
+                    <div style="flex:2;">
+                        <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                    </div>
+                    <div>
+                        <button class="btn btn-pequeno btn-outline" onclick="zerarEstoqueItem('${key}')" style="padding:5px 10px;">Zerar</button>
+                    </div>
+                `;
+                lista.appendChild(item);
+            });
+            container.appendChild(lista);
+        }
+
+        window.zerarEstoqueItem = function(key) {
+            estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
+            delete estoqueInterno[key];
+            localStorage.setItem(STORAGE_ESTOQUE, JSON.stringify(estoqueInterno));
+            mostrarNotificacao(`Estoque de ${key} zerado`);
             renderizarEstoque();
             renderizarProdutos();
-        }
-    };
-
-    // ---------- PEDIDOS ----------
-    function renderizarPedidos() {
-        const pedidos = JSON.parse(localStorage.getItem(STORAGE_PEDIDOS)) || [];
-        const container = document.getElementById('pedidosContainer');
-        container.innerHTML = '';
-
-        if (pedidos.length === 0) {
-            container.innerHTML = '<div style="background:white; padding:30px; text-align:center; border-radius:16px; color:#777;">Nenhum pedido registrado ainda.</div>';
-            return;
-        }
-
-        pedidos.sort((a,b) => new Date(b.data) - new Date(a.data)).forEach(ped => {
-            const card = document.createElement('div');
-            card.className = 'pedido-card';
-            const data = new Date(ped.data).toLocaleString('pt-BR');
-            card.innerHTML = `
-                <div class="pedido-header">
-                    <span><strong>${ped.cliente}</strong> · ${data}</span>
-                    <span class="status ${ped.status || 'pendente'}">${ped.status || 'pendente'}</span>
-                </div>
-                <div style="font-size:0.85rem; margin-bottom:10px;">
-                    Pagamento: ${ped.pagamento} · Total: R$ ${ped.total.toFixed(2)}
-                </div>
-                <div style="background: var(--bege-claro); padding:10px; border-radius:8px; font-size:0.8rem;">
-                    ${ped.itens.map(i => `• ${i}`).join('<br>')}
-                </div>
-                <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:15px;">
-                    <button class="btn btn-pequeno btn-outline" onclick="mudarStatusPedido('${ped.id}', 'concluido')">✓ Concluir</button>
-                    <button class="btn btn-pequeno" style="background:var(--esgotado);" onclick="removerPedido('${ped.id}')">Remover</button>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-    }
-
-    window.adicionarPedidoExemplo = function() {
-        const pedidos = JSON.parse(localStorage.getItem(STORAGE_PEDIDOS)) || [];
-        const novoPedido = {
-            id: Date.now().toString(),
-            cliente: 'Cliente Exemplo',
-            pagamento: 'Pix',
-            total: 45.00,
-            itens: ['2x Trufa Média (Maracujá)', '1x Bolo Ninho & Nutella'],
-            data: new Date().toISOString(),
-            status: 'pendente'
         };
-        pedidos.push(novoPedido);
-        localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify(pedidos));
-        renderizarPedidos();
-        mostrarNotificacao('Pedido de exemplo adicionado');
-    };
 
-    window.mudarStatusPedido = function(id, status) {
-        let pedidos = JSON.parse(localStorage.getItem(STORAGE_PEDIDOS)) || [];
-        const index = pedidos.findIndex(p => p.id === id);
-        if (index !== -1) {
-            pedidos[index].status = status;
+        window.resetarEstoqueGlobal = function() {
+            if (confirm('Zerar TODOS os itens vendidos?')) {
+                localStorage.setItem(STORAGE_ESTOQUE, JSON.stringify({}));
+                estoqueInterno = {};
+                mostrarNotificacao('Todos os estoques foram zerados');
+                renderizarEstoque();
+                renderizarProdutos();
+            }
+        };
+
+        // ---------- PEDIDOS ----------
+        function renderizarPedidos() {
+            const pedidos = JSON.parse(localStorage.getItem(STORAGE_PEDIDOS)) || [];
+            const container = document.getElementById('pedidosContainer');
+            container.innerHTML = '';
+
+            if (pedidos.length === 0) {
+                container.innerHTML = '<div style="background:white; padding:30px; text-align:center; border-radius:16px; color:#777;">Nenhum pedido registrado ainda.</div>';
+                return;
+            }
+
+            pedidos.sort((a,b) => new Date(b.data) - new Date(a.data)).forEach(ped => {
+                const card = document.createElement('div');
+                card.className = 'pedido-card';
+                const data = new Date(ped.data).toLocaleString('pt-BR');
+                card.innerHTML = `
+                    <div class="pedido-header">
+                        <span><strong>${ped.cliente}</strong> · ${data}</span>
+                        <span class="status ${ped.status || 'pendente'}">${ped.status || 'pendente'}</span>
+                    </div>
+                    <div style="font-size:0.85rem; margin-bottom:10px;">
+                        Pagamento: ${ped.pagamento} · Total: R$ ${ped.total.toFixed(2)}
+                    </div>
+                    <div style="background: var(--bege-claro); padding:10px; border-radius:8px; font-size:0.8rem;">
+                        ${ped.itens.map(i => `• ${i}`).join('<br>')}
+                    </div>
+                    <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:15px;">
+                        <button class="btn btn-pequeno btn-outline" onclick="mudarStatusPedido('${ped.id}', 'concluido')">✓ Concluir</button>
+                        <button class="btn btn-pequeno" style="background:var(--esgotado);" onclick="removerPedido('${ped.id}')">Remover</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.adicionarPedidoExemplo = function() {
+            const pedidos = JSON.parse(localStorage.getItem(STORAGE_PEDIDOS)) || [];
+            const novoPedido = {
+                id: Date.now().toString(),
+                cliente: 'Cliente Exemplo',
+                pagamento: 'Pix',
+                total: 45.00,
+                itens: ['2x Trufa Média (Maracujá)', '1x Bolo Ninho & Nutella'],
+                data: new Date().toISOString(),
+                status: 'pendente'
+            };
+            pedidos.push(novoPedido);
             localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify(pedidos));
             renderizarPedidos();
-            mostrarNotificacao(`Status alterado para ${status}`);
-        }
-    };
+            mostrarNotificacao('Pedido de exemplo adicionado');
+        };
 
-    window.removerPedido = function(id) {
-        if (confirm('Remover este pedido?')) {
+        window.mudarStatusPedido = function(id, status) {
             let pedidos = JSON.parse(localStorage.getItem(STORAGE_PEDIDOS)) || [];
-            pedidos = pedidos.filter(p => p.id !== id);
-            localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify(pedidos));
-            renderizarPedidos();
-            mostrarNotificacao('Pedido removido');
-        }
-    };
-
-    // ---------- CONFIGURAÇÕES ----------
-    window.salvarConfiguracoes = function() {
-        const novoMax = parseInt(document.getElementById('estoqueMaximoInput').value, 10);
-        if (novoMax > 0) {
-            ESTOQUE_MAX = novoMax;
-            localStorage.setItem(STORAGE_CONFIG, JSON.stringify({ estoqueMax: novoMax }));
-            mostrarNotificacao(`Limite de estoque alterado para ${novoMax}`);
-            renderizarProdutos();
-            renderizarEstoque();
-        }
-    };
-
-    window.resetarTudo = function() {
-        if (confirm('⚠️ Isso irá apagar TODOS os produtos, estoque e pedidos. Tem certeza?')) {
-            localStorage.removeItem(STORAGE_PRODUTOS);
-            localStorage.removeItem(STORAGE_ESTOQUE);
-            localStorage.removeItem(STORAGE_PEDIDOS);
-            localStorage.removeItem(STORAGE_CONFIG);
-            inicializarDados();
-            mostrarNotificacao('Todos os dados foram resetados');
-        }
-    };
-
-    // ---------- NAVEGAÇÃO ----------
-    window.mudarSecao = function(secao) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.getElementById(`secao${secao.charAt(0).toUpperCase() + secao.slice(1)}`).classList.add('active');
-
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(`nav${secao.charAt(0).toUpperCase() + secao.slice(1)}`).classList.add('active');
-
-        // Recarregar dados ao entrar na seção
-        if (secao === 'produtos') renderizarProdutos();
-        if (secao === 'estoque') renderizarEstoque();
-        if (secao === 'pedidos') renderizarPedidos();
-    }
-
-    // ---------- START ----------
-    window.onload = function() {
-        inicializarDados();
-
-        // Fechar modal clicando fora
-        window.onclick = function(event) {
-            const modal = document.getElementById('modalProduto');
-            if (event.target === modal) modal.style.display = 'none';
+            const index = pedidos.findIndex(p => p.id === id);
+            if (index !== -1) {
+                pedidos[index].status = status;
+                localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify(pedidos));
+                renderizarPedidos();
+                mostrarNotificacao(`Status alterado para ${status}`);
+            }
         };
-    };
-</script>
+
+        window.removerPedido = function(id) {
+            if (confirm('Remover este pedido?')) {
+                let pedidos = JSON.parse(localStorage.getItem(STORAGE_PEDIDOS)) || [];
+                pedidos = pedidos.filter(p => p.id !== id);
+                localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify(pedidos));
+                renderizarPedidos();
+                mostrarNotificacao('Pedido removido');
+            }
+        };
+
+        // ---------- RELATÓRIOS ----------
+        function renderizarRelatorios() {
+            const pedidos = JSON.parse(localStorage.getItem(STORAGE_PEDIDOS)) || [];
+            const estoque = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
+            const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
+
+            let faturamentoTotal = 0;
+            pedidos.forEach(p => faturamentoTotal += p.total || 0);
+            const totalPedidos = pedidos.length;
+            const ticketMedio = totalPedidos > 0 ? (faturamentoTotal / totalPedidos).toFixed(2) : 0;
+
+            let vendasPorItem = [];
+            for (let [key, qtd] of Object.entries(estoque)) {
+                let nome = key;
+                for (let prod of produtos) {
+                    if (prod.key === key) nome = prod.nome;
+                    if (prod.variacoes) {
+                        let v = prod.variacoes.find(v => v.key === key);
+                        if (v) nome = `${prod.nome} (${v.tamanho})`;
+                    }
+                }
+                vendasPorItem.push({ nome, qtd });
+            }
+            vendasPorItem.sort((a,b) => b.qtd - a.qtd).slice(0, 10);
+
+            let html = `
+                <div class="relatorio-card">
+                    <h3 style="font-family:'Cormorant Garamond'; margin-bottom:20px;">Visão geral</h3>
+                    <div class="relatorio-grid">
+                        <div class="metric"><span>Faturamento total</span><strong>R$ ${faturamentoTotal.toFixed(2)}</strong></div>
+                        <div class="metric"><span>Pedidos</span><strong>${totalPedidos}</strong></div>
+                        <div class="metric"><span>Ticket médio</span><strong>R$ ${ticketMedio}</strong></div>
+                        <div class="metric"><span>Itens vendidos</span><strong>${Object.values(estoque).reduce((a,b)=>a+b,0)}</strong></div>
+                    </div>
+                </div>
+                <div class="relatorio-card">
+                    <h3 style="font-family:'Cormorant Garamond'; margin-bottom:20px;">🍫 Produtos mais vendidos</h3>
+                    <div class="top-produtos">
+                        ${vendasPorItem.map((item, idx) => `
+                            <div class="top-item">
+                                <span>${idx+1}. ${item.nome}</span>
+                                <strong style="color:var(--terroso-luxo);">${item.qtd} vendidos</strong>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('relatoriosContainer').innerHTML = html;
+        }
+
+        // ---------- CONFIGURAÇÕES ----------
+        function salvarConfiguracoes() {
+            const novoMax = parseInt(document.getElementById('estoqueMaximoInput').value, 10);
+            if (novoMax > 0) {
+                ESTOQUE_MAX = novoMax;
+                let config = JSON.parse(localStorage.getItem(STORAGE_CONFIG)) || {};
+                config.estoqueMax = novoMax;
+                
+                const novaSenha = document.getElementById('novaSenhaAdmin').value;
+                if (novaSenha) config.senhaAdmin = novaSenha;
+                
+                localStorage.setItem(STORAGE_CONFIG, JSON.stringify(config));
+                mostrarNotificacao('Configurações salvas!');
+                renderizarProdutos();
+                renderizarEstoque();
+            }
+        }
+
+        function resetarTudo() {
+            if (confirm('⚠️ Isso irá apagar TODOS os produtos, estoque e pedidos. Tem certeza?')) {
+                localStorage.removeItem(STORAGE_PRODUTOS);
+                localStorage.removeItem(STORAGE_ESTOQUE);
+                localStorage.removeItem(STORAGE_PEDIDOS);
+                // Mantém a config (senha)
+                inicializarDados();
+                mostrarNotificacao('Todos os dados foram resetados');
+            }
+        }
+
+        // ---------- SINCRONIZAÇÃO ----------
+        window.addEventListener('storage', function(e) {
+            if (e.key === STORAGE_PRODUTOS || e.key === STORAGE_ESTOQUE || e.key === STORAGE_PEDIDOS) {
+                estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
+                const secaoAtiva = document.querySelector('.section.active')?.id;
+                if (secaoAtiva === 'secaoProdutos') renderizarProdutos();
+                if (secaoAtiva === 'secaoEstoque') renderizarEstoque();
+                if (secaoAtiva === 'secaoPedidos') renderizarPedidos();
+                if (secaoAtiva === 'secaoRelatorios') renderizarRelatorios();
+            }
+        });
+
+        // ---------- INICIALIZAÇÃO ----------
+        window.onload = function() {
+            carregarConfig();
+            setupUpload();
+            if (localStorage.getItem('logado') === 'sim') {
+                document.getElementById('telaLogin').style.display = 'none';
+                document.getElementById('conteudoAdmin').style.display = 'flex';
+                inicializarDados();
+            }
+        };
+    </script>
 </body>
 </html>
