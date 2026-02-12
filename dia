@@ -64,7 +64,7 @@
         .selo-esgotado-row { background: #E63946; color: white; padding: 2px 8px; border-radius: 50px; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 6px; }
         .selector-row.row-esgotado { opacity: 0.5; pointer-events: none; }
         .selector-row.row-esgotado .btn-qty { border-color: #ccc; color: #ccc; cursor: not-allowed; }
-        .luxury-cart { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--terroso-luxo); border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 2000; transition: 0.3s; cursor: pointer; display: none; border: 2px solid white; overflow: hidden; }
+        .luxury-cart { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--terroso-luxo); border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 2000; transition: 0.3s; cursor: pointer; display: block; border: 2px solid white; overflow: hidden; }
         .luxury-cart.expandido { width: 320px; height: auto; border-radius: 20px; background: white; padding: 20px; cursor: default; }
         .cart-icon { display: flex; align-items: center; justify-content: center; height: 60px; font-size: 1.5rem; color: white; }
         .cart-content { display: none; }
@@ -153,15 +153,26 @@
 
 <script>
     // ============================================
+    //  🚨 ATENÇÃO: SE OS PRODUTOS APARECEREM "ESGOTADO"
+    //  COM 10 UNIDADES VENDIDAS, ISSO SIGNIFICA QUE
+    //  SEU ESTOQUE ANTIGO AINDA ESTÁ SALVO.
+    //
+    //  ✅ SOLUÇÃO RÁPIDA:
+    //  1. Abra o admin.html
+    //  2. Faça login (senha: admin123)
+    //  3. Vá em "ESTOQUE" e clique em "ZERAR VENDAS"
+    //  4. Pronto! Os produtos voltarão a ficar disponíveis.
+    // ============================================
+
+    // ============================================
     //  INICIALIZAÇÃO DO BANCO DE DADOS LOCAL
-    //  (CRIA OS PRODUTOS PADRÃO SE NÃO EXISTIREM)
     // ============================================
     const STORAGE_PRODUTOS = 'produtos_lagom';
     const STORAGE_ESTOQUE = 'estoque_lagom';
     const STORAGE_PEDIDOS = 'pedidos_lagom';
     const STORAGE_CONFIG = 'config_lagom';
 
-    // ----- PRODUTOS PADRÃO (EXATAMENTE IGUAL AO ADMIN) -----
+    // ----- PRODUTOS PADRÃO -----
     const produtosPadrao = [
         // TRUFAS
         {
@@ -286,7 +297,7 @@
         }
     ];
 
-    // ----- INICIALIZAÇÃO DO localStorage (SÓ EXECUTA SE ESTIVER VAZIO) -----
+    // ----- INICIALIZAÇÃO DO localStorage -----
     if (!localStorage.getItem(STORAGE_PRODUTOS)) {
         localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtosPadrao));
     }
@@ -469,7 +480,8 @@
 
     function render() {
         const cartPanel = document.getElementById('cartPanel');
-        cartPanel.style.display = cart.length > 0 ? 'block' : 'none';
+        // ✅ CARRINHO SEMPRE VISÍVEL (mesmo vazio)
+        cartPanel.style.display = 'block';
         document.getElementById('cartList').innerHTML = cart.map(i => 
             `<div class="cart-item"><span>${i.nome}</span><strong>R$ ${i.preco.toFixed(2)}</strong></div>`
         ).join('');
@@ -477,7 +489,7 @@
     }
 
     function expandirCart() {
-        if(cart.length > 0) document.getElementById('cartPanel').classList.add('expandido');
+        document.getElementById('cartPanel').classList.add('expandido');
     }
 
     function fecharCart(e) {
@@ -580,7 +592,7 @@
                   `\n\n*Total: R$ ${total.toFixed(2)}*`;
         window.open(`https://wa.me/558393889854?text=${encodeURIComponent(msg)}`, '_blank');
 
-        // (Opcional) Salvar pedido no localStorage para relatórios do admin
+        // Salvar pedido no localStorage para relatórios do admin
         const pedido = {
             id: Date.now().toString(),
             cliente: nome,
@@ -603,21 +615,7 @@
     }
 
     // ============================================
-    //  TIMER (mantido do original)
-    // ============================================
-    const targetDate = new Date("Feb 06, 2026 00:00:00").getTime();
-    setInterval(() => {
-        const now = new Date().getTime();
-        const dist = targetDate - now;
-        if (dist < 0) return;
-        document.getElementById("days").innerText = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-        document.getElementById("hours").innerText = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-        document.getElementById("minutes").innerText = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-        document.getElementById("seconds").innerText = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
-    }, 1000);
-
-    // ============================================
-    //  SINCRONIZAÇÃO EM TEMPO REAL (opcional)
+    //  SINCRONIZAÇÃO EM TEMPO REAL
     // ============================================
     window.addEventListener('storage', function(e) {
         if (e.key === STORAGE_PRODUTOS || e.key === STORAGE_ESTOQUE) {
@@ -632,7 +630,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         renderizarProdutosLoja();
     });
-
 </script>
 </body>
 </html>
