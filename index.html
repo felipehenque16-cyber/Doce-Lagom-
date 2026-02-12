@@ -6,7 +6,7 @@
     <title>Doce Lagom | Confeitaria Artesanal</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Montserrat:wght@200;400;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
-        /* ===== SEU CSS ORIGINAL (NÃO ALTERE) ===== */
+        /* ---------- CSS ORIGINAL DA LOJA (MANTIDO) ---------- */
         :root {
             --creme-fundo: #FDFCF9;
             --terroso-luxo: #94745B;
@@ -64,7 +64,24 @@
         .selo-esgotado-row { background: #E63946; color: white; padding: 2px 8px; border-radius: 50px; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 6px; }
         .selector-row.row-esgotado { opacity: 0.5; pointer-events: none; }
         .selector-row.row-esgotado .btn-qty { border-color: #ccc; color: #ccc; cursor: not-allowed; }
-        .luxury-cart { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--terroso-luxo); border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 2000; transition: 0.3s; cursor: pointer; display: block; border: 2px solid white; overflow: hidden; }
+
+        /* ----- CARRINHO SEMPRE VISÍVEL ----- */
+        .luxury-cart {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--terroso-luxo);
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transition: 0.3s;
+            cursor: pointer;
+            display: block;  /* ← sempre visível */
+            border: 2px solid white;
+            overflow: hidden;
+        }
         .luxury-cart.expandido { width: 320px; height: auto; border-radius: 20px; background: white; padding: 20px; cursor: default; }
         .cart-icon { display: flex; align-items: center; justify-content: center; height: 60px; font-size: 1.5rem; color: white; }
         .cart-content { display: none; }
@@ -76,14 +93,38 @@
         .total-box { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid var(--bege-claro); padding-top: 10px; }
         .btn-confirm { background: #25D366; color: white; border: none; padding: 15px; border-radius: 50px; width: 100%; margin-top: 15px; cursor: pointer; font-weight: 600; }
         .btn-clear { background: transparent; border: 1px solid #E0E0E0; color: #999; padding: 8px; border-radius: 50px; font-size: 0.6rem; cursor: pointer; margin-top: 10px; width: 100%; }
+
+        /* ----- MODAL ----- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 4000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-box { background: var(--branco); padding: 30px; border-radius: 20px; width: 85%; max-width: 340px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
         .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
         .m-btn { flex: 1; padding: 12px; border-radius: 50px; border: none; font-weight: 600; cursor: pointer; font-size: 0.7rem; }
         .m-btn-no { background: #eee; color: #666; }
         .m-btn-yes { background: #E63946; color: white; }
-        #notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 30px; border-radius: 50px; background: var(--branco); color: var(--terroso-luxo); box-shadow: 0 10px 25px rgba(0,0,0,0.1); font-size: 0.85rem; font-weight: 600; z-index: 3000; display: none; animation: fadeInOut 3s ease forwards; }
-        @keyframes fadeInOut { 0% { top: -50px; opacity: 0; } 15% { top: 20px; opacity: 1; } 85% { top: 20px; opacity: 1; } 100% { top: -50px; opacity: 0; } }
+
+        /* ----- NOTIFICAÇÃO ----- */
+        #notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 50px;
+            background: var(--branco);
+            color: var(--terroso-luxo);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 3000;
+            display: none;
+            animation: fadeInOut 3s ease forwards;
+        }
+        @keyframes fadeInOut {
+            0% { top: -50px; opacity: 0; }
+            15% { top: 20px; opacity: 1; }
+            85% { top: 20px; opacity: 1; }
+            100% { top: -50px; opacity: 0; }
+        }
         @media (max-width: 600px) { .grid { grid-template-columns: repeat(1, 1fr); } }
     </style>
 </head>
@@ -153,151 +194,34 @@
 
 <script>
     // ============================================
-    //  🚨 ATENÇÃO: SE OS PRODUTOS APARECEREM "ESGOTADO"
-    //  COM 10 UNIDADES VENDIDAS, ISSO SIGNIFICA QUE
-    //  SEU ESTOQUE ANTIGO AINDA ESTÁ SALVO.
-    //
-    //  ✅ SOLUÇÃO RÁPIDA:
-    //  1. Abra o admin.html
-    //  2. Faça login (senha: admin123)
-    //  3. Vá em "ESTOQUE" e clique em "ZERAR VENDAS"
-    //  4. Pronto! Os produtos voltarão a ficar disponíveis.
+    //  LOJA DO LAGOM - VERSÃO COMPLETA (COM COMBOS)
+    //  CARRINHO SEMPRE VISÍVEL
+    //  LIMITE DE 10 UNIDADES COM SELO ESGOTADO
     // ============================================
 
-    // ============================================
-    //  INICIALIZAÇÃO DO BANCO DE DADOS LOCAL
-    // ============================================
+    // ---------- CONSTANTES ----------
     const STORAGE_PRODUTOS = 'produtos_lagom';
     const STORAGE_ESTOQUE = 'estoque_lagom';
     const STORAGE_PEDIDOS = 'pedidos_lagom';
     const STORAGE_CONFIG = 'config_lagom';
 
-    // ----- PRODUTOS PADRÃO -----
+    // ---------- PRODUTOS PADRÃO (se não existirem) ----------
     const produtosPadrao = [
-        // TRUFAS
-        {
-            id: 'mar',
-            nome: 'Maracujá',
-            descricao: 'Trufa cremosa com recheio de maracujá, equilibrando doçura e acidez.',
-            categoria: 'trufas',
-            imagem: 'https://i.ibb.co/d4wBYTPT/b6e504dc-ee33-4c3e-9be3-721ed8f5c3b7.jpg',
-            badge: 'Favorito',
-            tipoPreco: 'variacoes',
-            variacoes: [
-                { tamanho: 'Média', preco: 6, key: 'mar-m' },
-                { tamanho: 'Mini', preco: 4, key: 'mar-mini' }
-            ]
-        },
-        {
-            id: 'ni',
-            nome: 'Ninho & Nutella',
-            descricao: 'Combinação irresistível de leite Ninho com Nutella em uma trufa macia.',
-            categoria: 'trufas',
-            imagem: 'https://i.ibb.co/vCYCLvML/image.png',
-            badge: 'Favorito',
-            tipoPreco: 'variacoes',
-            variacoes: [
-                { tamanho: 'Média', preco: 6, key: 'ni-m' },
-                { tamanho: 'Mini', preco: 4, key: 'ni-mini' }
-            ]
-        },
-        {
-            id: 'pa',
-            nome: 'Paçoca',
-            descricao: 'Trufa com o sabor clássico da paçoca, crocante e irresistível.',
-            categoria: 'trufas',
-            imagem: 'https://i.ibb.co/JjrwS6gV/4e7c1bd3-101a-47cd-8f6c-dbbaf1f42caf.jpg',
-            badge: '',
-            tipoPreco: 'variacoes',
-            variacoes: [
-                { tamanho: 'Média', preco: 6, key: 'pa-m' },
-                { tamanho: 'Mini', preco: 4, key: 'pa-mini' }
-            ]
-        },
-        {
-            id: 'caf',
-            nome: 'Café',
-            descricao: 'Trufa com intenso sabor de café, perfeita para os amantes da bebida.',
-            categoria: 'trufas',
-            imagem: 'https://i.ibb.co/0jmQ2JwH/91d96de8-2f80-48fa-a370-7d775f17eb8d.jpg',
-            badge: '',
-            tipoPreco: 'variacoes',
-            variacoes: [
-                { tamanho: 'Média', preco: 6, key: 'caf-m' },
-                { tamanho: 'Mini', preco: 4, key: 'caf-mini' }
-            ]
-        },
-        // BOLOS
-        {
-            id: 'bn',
-            nome: 'Bolo Ninho & Nutella',
-            descricao: 'Camadas de creme de Ninho com Nutella no pote, pura indulgência.',
-            categoria: 'bolos',
-            imagem: 'https://i.ibb.co/vxf8TJDv/Cantinho-da-G-Wordmark-Logo-1.png',
-            badge: '',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'bn'
-        },
-        {
-            id: 'bm',
-            nome: 'Bolo Maracujá',
-            descricao: 'Bolo de pote refrescante com creme de maracujá e massa fofinha.',
-            categoria: 'bolos',
-            imagem: 'https://i.ibb.co/gFXm5yhG/Cantinho-da-G-Wordmark-Logo.png',
-            badge: '',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'bm'
-        },
-        {
-            id: 'bc',
-            nome: 'Bolo Chocolate',
-            descricao: 'Bolo de pote de chocolate intenso, para os chocólatras de plantão.',
-            categoria: 'bolos',
-            imagem: 'https://i.ibb.co/wZkd0tZ8/image.png',
-            badge: '',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'bc'
-        },
-        // COMBOS
-        {
-            id: 'kit',
-            nome: 'Kit Degustação',
-            descricao: '5 mini trufas sortidas.',
-            categoria: 'combos',
-            imagem: 'https://i.ibb.co/gFSmx2Cy/f1f2641a-3653-437d-b84f-52be0901330a.jpg',
-            badge: 'Especial',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'kit'
-        },
-        {
-            id: 'trio',
-            nome: 'Combo Trio Médias',
-            descricao: 'Escolha 3 trufas médias dos nossos sabores favoritos.',
-            categoria: 'combos',
-            imagem: 'https://i.ibb.co/7xV904Pc/image.png',
-            badge: 'Mais Pedido',
-            tipoPreco: 'unico',
-            preco: 15,
-            key: 'trio'
-        },
-        {
-            id: 'duo',
-            nome: 'Duo Lagom',
-            descricao: '1 bolo de pote + 1 trufa média, a combinação perfeita.',
-            categoria: 'combos',
-            imagem: 'https://i.ibb.co/DfL33q2K/image.png',
-            badge: 'Favorito',
-            tipoPreco: 'unico',
-            preco: 20,
-            key: 'duo'
-        }
+        // Trufas
+        { id: 'mar', nome: 'Maracujá', descricao: 'Trufa cremosa com recheio de maracujá, equilibrando doçura e acidez.', categoria: 'trufas', imagem: 'https://i.ibb.co/d4wBYTPT/b6e504dc-ee33-4c3e-9be3-721ed8f5c3b7.jpg', badge: 'Favorito', tipoPreco: 'variacoes', variacoes: [{ tamanho: 'Média', preco: 6, key: 'mar-m' }, { tamanho: 'Mini', preco: 4, key: 'mar-mini' }] },
+        { id: 'ni', nome: 'Ninho & Nutella', descricao: 'Combinação irresistível de leite Ninho com Nutella em uma trufa macia.', categoria: 'trufas', imagem: 'https://i.ibb.co/vCYCLvML/image.png', badge: 'Favorito', tipoPreco: 'variacoes', variacoes: [{ tamanho: 'Média', preco: 6, key: 'ni-m' }, { tamanho: 'Mini', preco: 4, key: 'ni-mini' }] },
+        { id: 'pa', nome: 'Paçoca', descricao: 'Trufa com o sabor clássico da paçoca, crocante e irresistível.', categoria: 'trufas', imagem: 'https://i.ibb.co/JjrwS6gV/4e7c1bd3-101a-47cd-8f6c-dbbaf1f42caf.jpg', badge: '', tipoPreco: 'variacoes', variacoes: [{ tamanho: 'Média', preco: 6, key: 'pa-m' }, { tamanho: 'Mini', preco: 4, key: 'pa-mini' }] },
+        { id: 'caf', nome: 'Café', descricao: 'Trufa com intenso sabor de café, perfeita para os amantes da bebida.', categoria: 'trufas', imagem: 'https://i.ibb.co/0jmQ2JwH/91d96de8-2f80-48fa-a370-7d775f17eb8d.jpg', badge: '', tipoPreco: 'variacoes', variacoes: [{ tamanho: 'Média', preco: 6, key: 'caf-m' }, { tamanho: 'Mini', preco: 4, key: 'caf-mini' }] },
+        // Bolos
+        { id: 'bn', nome: 'Bolo Ninho & Nutella', descricao: 'Camadas de creme de Ninho com Nutella no pote, pura indulgência.', categoria: 'bolos', imagem: 'https://i.ibb.co/vxf8TJDv/Cantinho-da-G-Wordmark-Logo-1.png', badge: '', tipoPreco: 'unico', preco: 15, key: 'bn' },
+        { id: 'bm', nome: 'Bolo Maracujá', descricao: 'Bolo de pote refrescante com creme de maracujá e massa fofinha.', categoria: 'bolos', imagem: 'https://i.ibb.co/gFXm5yhG/Cantinho-da-G-Wordmark-Logo.png', badge: '', tipoPreco: 'unico', preco: 15, key: 'bm' },
+        { id: 'bc', nome: 'Bolo Chocolate', descricao: 'Bolo de pote de chocolate intenso, para os chocólatras de plantão.', categoria: 'bolos', imagem: 'https://i.ibb.co/wZkd0tZ8/image.png', badge: '', tipoPreco: 'unico', preco: 15, key: 'bc' },
+        // Combos (configurados como exemplo)
+        { id: 'trio', nome: 'Combo Trio Médias', descricao: 'Escolha 3 trufas médias dos nossos sabores favoritos.', categoria: 'combos', imagem: 'https://i.ibb.co/7xV904Pc/image.png', badge: 'Mais Pedido', tipo: 'combo', preco: 15, key: 'trio', grupos: [{ nome: 'Escolha 3 trufas médias', limite: 3, sabores: [{ nome: 'Ninho & Nutella', key: 'ni-m', preco: 0 }, { nome: 'Maracujá', key: 'mar-m', preco: 0 }, { nome: 'Paçoca', key: 'pa-m', preco: 0 }, { nome: 'Café', key: 'caf-m', preco: 0 }] }] },
+        { id: 'duo', nome: 'Duo Lagom', descricao: '1 bolo de pote + 1 trufa média, a combinação perfeita.', categoria: 'combos', imagem: 'https://i.ibb.co/DfL33q2K/image.png', badge: 'Favorito', tipo: 'combo', preco: 20, key: 'duo', grupos: [{ nome: 'Escolha 1 bolo', limite: 1, sabores: [{ nome: 'Ninho & Nutella', key: 'bn', preco: 0 }, { nome: 'Maracujá', key: 'bm', preco: 0 }, { nome: 'Chocolate', key: 'bc', preco: 0 }] }, { nome: 'Escolha 1 trufa média', limite: 1, sabores: [{ nome: 'Ninho & Nutella', key: 'ni-m', preco: 0 }, { nome: 'Maracujá', key: 'mar-m', preco: 0 }, { nome: 'Paçoca', key: 'pa-m', preco: 0 }, { nome: 'Café', key: 'caf-m', preco: 0 }] }] }
     ];
 
-    // ----- INICIALIZAÇÃO DO localStorage -----
+    // ----- INICIALIZAÇÃO DO BANCO DE DADOS -----
     if (!localStorage.getItem(STORAGE_PRODUTOS)) {
         localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtosPadrao));
     }
@@ -311,24 +235,17 @@
         localStorage.setItem(STORAGE_CONFIG, JSON.stringify({ senhaAdmin: 'admin123', estoqueMax: 10 }));
     }
 
-    // ============================================
-    //  VARIÁVEIS GLOBAIS
-    // ============================================
+    // ---------- VARIÁVEIS GLOBAIS ----------
     let qtys = {};
     let cart = [];
     let total = 0;
-    let comboSelecao = { 
-        trio: { total: 0, limite: 3, itens: {} }, 
-        'duo-b': { total: 0, limite: 1, itens: {} }, 
-        'duo-t': { total: 0, limite: 1, itens: {} } 
-    };
+    let combosSelecao = {}; // para combos dinâmicos
 
-    const ESTOQUE_MAX = JSON.parse(localStorage.getItem(STORAGE_CONFIG)).estoqueMax || 10;
+    const config = JSON.parse(localStorage.getItem(STORAGE_CONFIG)) || { estoqueMax: 10 };
+    const ESTOQUE_MAX = config.estoqueMax || 10;
     let estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
 
-    // ============================================
-    //  FUNÇÕES DE RENDERIZAÇÃO DA LOJA
-    // ============================================
+    // ---------- RENDERIZAÇÃO ----------
     function renderizarProdutosLoja() {
         const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
         const trufas = produtos.filter(p => p.categoria === 'trufas');
@@ -349,7 +266,6 @@
             const card = document.createElement('div');
             card.className = 'card';
             card.dataset.productKey = prod.id;
-            if (tipo === 'trufa') card.dataset.trufa = 'true';
 
             let imgHTML = `<div class="img-container">`;
             if (prod.badge) imgHTML += `<div class="badge">${prod.badge}</div>`;
@@ -359,7 +275,30 @@
             let variacoesHTML = '';
             let btnAddHTML = '';
 
-            if (prod.tipoPreco === 'variacoes' && prod.variacoes) {
+            // ----- COMBOS DINÂMICOS -----
+            if (prod.categoria === 'combos' && prod.grupos) {
+                variacoesHTML = `<div class="selector-box" data-combo-id="${prod.id}">`;
+                prod.grupos.forEach((grupo, idxGrupo) => {
+                    variacoesHTML += `<p style="margin-top:10px; font-weight:600;">${grupo.nome}</p>`;
+                    grupo.sabores.forEach(sabor => {
+                        const saborKey = `${prod.id}-${idxGrupo}-${sabor.key}`;
+                        variacoesHTML += `
+                            <div class="selector-row combo-row" data-grupo="${idxGrupo}" data-sabor-key="${saborKey}" data-prod-id="${prod.id}">
+                                <span>${sabor.nome}</span>
+                                <div class="controls">
+                                    <button class="btn-qty" onclick="changeComboQty('${prod.id}', ${idxGrupo}, '${saborKey}', -1)">-</button>
+                                    <span class="qty-val" id="combo-${saborKey}">0</span>
+                                    <button class="btn-qty" id="plus-combo-${saborKey}" onclick="changeComboQty('${prod.id}', ${idxGrupo}, '${saborKey}', 1)">+</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                });
+                variacoesHTML += `</div>`;
+                btnAddHTML = `<button class="btn-add" onclick="finalizarCombo('${prod.id}', '${prod.nome}', ${prod.preco})">Reservar Combo</button>`;
+            }
+            // ----- TRUFAS (MÚLTIPLOS TAMANHOS) -----
+            else if (prod.tipoPreco === 'variacoes' && prod.variacoes) {
                 variacoesHTML = `<div class="selector-box">`;
                 prod.variacoes.forEach(varia => {
                     const qtyId = `qty-${varia.key}`;
@@ -377,7 +316,9 @@
                 });
                 variacoesHTML += `</div>`;
                 btnAddHTML = `<button class="btn-add" onclick="addTrufa('${prod.nome}', '${prod.id}')">Reservar</button>`;
-            } else {
+            }
+            // ----- PRODUTOS DE PREÇO ÚNICO -----
+            else {
                 const qtyId = `qty-${prod.key}`;
                 const plusId = `plus-${prod.key}`;
                 variacoesHTML = `
@@ -409,29 +350,44 @@
 
         verificarEsgotados();
         inicializarQtys();
+        inicializarCombosSelecao(produtos);
     }
 
+    // ---------- INICIALIZAÇÕES ----------
     function inicializarQtys() {
         const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
         produtos.forEach(prod => {
             if (prod.tipoPreco === 'variacoes' && prod.variacoes) {
                 prod.variacoes.forEach(v => { if (!qtys[v.key]) qtys[v.key] = 0; });
-            } else {
+            } else if (prod.key) {
                 if (!qtys[prod.key]) qtys[prod.key] = 0;
             }
         });
     }
 
-    // ============================================
-    //  FUNÇÕES DE QUANTIDADE E ADIÇÃO AO CARRINHO
-    // ============================================
+    function inicializarCombosSelecao(produtos) {
+        const combos = produtos.filter(p => p.categoria === 'combos' && p.grupos);
+        combos.forEach(combo => {
+            if (!combosSelecao[combo.id]) {
+                combosSelecao[combo.id] = {
+                    grupos: combo.grupos.map(g => ({
+                        limite: g.limite,
+                        total: 0,
+                        itens: {}
+                    }))
+                };
+            }
+        });
+    }
+
+    // ---------- FUNÇÕES DE QUANTIDADE (TRUFAS/BOLOS) ----------
     function changeQty(id, delta) {
         if (!qtys[id]) qtys[id] = 0;
         let estoqueUsado = estoqueInterno[id] || 0;
         if (delta > 0 && (estoqueUsado + qtys[id]) >= ESTOQUE_MAX) return mostrarMsg("Limite de produção atingido!");
         let n = qtys[id] + delta;
-        if (n >= 0) { 
-            qtys[id] = n; 
+        if (n >= 0) {
+            qtys[id] = n;
             let el = document.getElementById(`qty-${id}`);
             if (el) el.innerText = n;
             let plusBtn = document.getElementById(`plus-${id}`);
@@ -443,13 +399,13 @@
         let qM = qtys[key+'-m'] || 0;
         let qMi = qtys[key+'-mini'] || 0;
         if (qM + qMi === 0) return mostrarMsg("Selecione a quantidade!");
-        if (qM > 0) { 
-            estoqueInterno[key+'-m'] = (estoqueInterno[key+'-m'] || 0) + qM; 
-            addItemCart(`${qM}x Trufa Média (${sab})`, qM * 6); 
+        if (qM > 0) {
+            estoqueInterno[key+'-m'] = (estoqueInterno[key+'-m'] || 0) + qM;
+            addItemCart(`${qM}x Trufa Média (${sab})`, qM * 6);
         }
-        if (qMi > 0) { 
-            estoqueInterno[key+'-mini'] = (estoqueInterno[key+'-mini'] || 0) + qMi; 
-            addItemCart(`${qMi}x Trufa Mini (${sab})`, qMi * 4); 
+        if (qMi > 0) {
+            estoqueInterno[key+'-mini'] = (estoqueInterno[key+'-mini'] || 0) + qMi;
+            addItemCart(`${qMi}x Trufa Mini (${sab})`, qMi * 4);
         }
         qtys[key+'-m'] = 0;
         qtys[key+'-mini'] = 0;
@@ -471,6 +427,82 @@
         salvar();
     }
 
+    // ---------- FUNÇÕES PARA COMBOS ----------
+    function changeComboQty(comboId, idxGrupo, saborKey, delta) {
+        if (!combosSelecao[comboId]) {
+            const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
+            const combo = produtos.find(p => p.id === comboId);
+            if (combo) {
+                combosSelecao[comboId] = {
+                    grupos: combo.grupos.map(g => ({ limite: g.limite, total: 0, itens: {} }))
+                };
+            } else return;
+        }
+
+        const grupo = combosSelecao[comboId].grupos[idxGrupo];
+        if (!grupo.itens[saborKey]) grupo.itens[saborKey] = 0;
+
+        let novaQtd = grupo.itens[saborKey] + delta;
+        let novoTotalGrupo = grupo.total + delta;
+
+        if (novaQtd >= 0 && novoTotalGrupo <= grupo.limite) {
+            grupo.itens[saborKey] = novaQtd;
+            grupo.total = novoTotalGrupo;
+
+            const el = document.getElementById(`combo-${saborKey}`);
+            if (el) el.innerText = novaQtd;
+
+            const plusBtn = document.getElementById(`plus-combo-${saborKey}`);
+            if (plusBtn) plusBtn.disabled = (grupo.total >= grupo.limite);
+        }
+    }
+
+    function finalizarCombo(comboId, nomeCombo, precoBase) {
+        const combo = combosSelecao[comboId];
+        if (!combo) return mostrarMsg("Selecione os itens do combo!");
+
+        for (let i = 0; i < combo.grupos.length; i++) {
+            if (combo.grupos[i].total === 0) {
+                return mostrarMsg(`Preencha todas as escolhas do combo.`);
+            }
+        }
+
+        // Buscar os nomes dos sabores escolhidos
+        const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
+        const comboProd = produtos.find(p => p.id === comboId);
+        let descricaoItens = [];
+
+        combo.grupos.forEach((grupo, idx) => {
+            Object.entries(grupo.itens).forEach(([saborKey, qtd]) => {
+                if (qtd > 0) {
+                    // extrair nome do sabor
+                    for (let g of comboProd.grupos) {
+                        for (let s of g.sabores) {
+                            const key = `${comboId}-${idx}-${s.key}`;
+                            if (key === saborKey) {
+                                descricaoItens.push(s.nome);
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        const descricao = `${nomeCombo} (${descricaoItens.join(' + ')})`;
+        addItemCart(descricao, precoBase);
+
+        // Registrar venda do combo
+        estoqueInterno[comboId] = (estoqueInterno[comboId] || 0) + 1;
+        salvar();
+
+        // Resetar combo
+        delete combosSelecao[comboId];
+        // Resetar contadores na tela
+        document.querySelectorAll(`[data-combo-id="${comboId}"] .qty-val`).forEach(el => el.innerText = '0');
+        document.querySelectorAll(`[id^="plus-combo-"]`).forEach(btn => btn.disabled = false);
+    }
+
+    // ---------- FUNÇÕES DO CARRINHO ----------
     function addItemCart(nome, preco) {
         cart.push({ nome, preco });
         total += preco;
@@ -479,10 +511,7 @@
     }
 
     function render() {
-        const cartPanel = document.getElementById('cartPanel');
-        // ✅ CARRINHO SEMPRE VISÍVEL (mesmo vazio)
-        cartPanel.style.display = 'block';
-        document.getElementById('cartList').innerHTML = cart.map(i => 
+        document.getElementById('cartList').innerHTML = cart.map(i =>
             `<div class="cart-item"><span>${i.nome}</span><strong>R$ ${i.preco.toFixed(2)}</strong></div>`
         ).join('');
         document.getElementById('totalVal').innerText = `R$ ${total.toFixed(2)}`;
@@ -515,6 +544,7 @@
         verificarEsgotados();
     }
 
+    // ---------- ESGOTADOS (VARIAÇÕES E CARD INTEIRO) ----------
     function verificarEsgotados() {
         document.querySelectorAll('.card[data-product-key]').forEach(card => {
             const key = card.dataset.productKey;
@@ -581,18 +611,19 @@
         });
     }
 
+    // ---------- ENVIO WHATSAPP ----------
     function enviar(e) {
         e.stopPropagation();
         const nome = document.getElementById('clientName').value;
         const pg = document.getElementById('paymentMethod').value;
-        if(!nome || !pg) return mostrarMsg("Preencha nome e pagamento!");
-        
-        let msg = `*Reserva Doce Lagom*\n*Cliente:* ${nome}\n*Pagamento:* ${pg}\n\n` + 
-                  cart.map(i => `• ${i.nome}`).join("\n") + 
-                  `\n\n*Total: R$ ${total.toFixed(2)}*`;
+        if (!nome || !pg) return mostrarMsg("Preencha nome e pagamento!");
+
+        let msg = `*Reserva Doce Lagom*\n*Cliente:* ${nome}\n*Pagamento:* ${pg}\n\n` +
+            cart.map(i => `• ${i.nome}`).join("\n") +
+            `\n\n*Total: R$ ${total.toFixed(2)}*`;
         window.open(`https://wa.me/558393889854?text=${encodeURIComponent(msg)}`, '_blank');
 
-        // Salvar pedido no localStorage para relatórios do admin
+        // Salvar pedido
         const pedido = {
             id: Date.now().toString(),
             cliente: nome,
@@ -607,16 +638,26 @@
         localStorage.setItem(STORAGE_PEDIDOS, JSON.stringify(pedidos));
     }
 
-    function mostrarMsg(t) { 
-        const n = document.getElementById('notification'); 
-        n.innerText = t; 
-        n.style.display = 'block'; 
-        setTimeout(() => n.style.display = 'none', 2500); 
+    function mostrarMsg(t) {
+        const n = document.getElementById('notification');
+        n.innerText = t;
+        n.style.display = 'block';
+        setTimeout(() => n.style.display = 'none', 2500);
     }
 
-    // ============================================
-    //  SINCRONIZAÇÃO EM TEMPO REAL
-    // ============================================
+    // ---------- TIMER ----------
+    const targetDate = new Date("Feb 06, 2026 00:00:00").getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const dist = targetDate - now;
+        if (dist < 0) return;
+        document.getElementById("days").innerText = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+        document.getElementById("hours").innerText = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+        document.getElementById("minutes").innerText = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+        document.getElementById("seconds").innerText = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
+    }, 1000);
+
+    // ---------- SINCRONIZAÇÃO ----------
     window.addEventListener('storage', function(e) {
         if (e.key === STORAGE_PRODUTOS || e.key === STORAGE_ESTOQUE) {
             estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
@@ -624,9 +665,7 @@
         }
     });
 
-    // ============================================
-    //  INICIALIZAÇÃO DA PÁGINA
-    // ============================================
+    // ---------- INICIALIZAÇÃO ----------
     document.addEventListener('DOMContentLoaded', function() {
         renderizarProdutosLoja();
     });
