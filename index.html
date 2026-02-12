@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doce Lagom | Confeitaria Artesanal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Montserrat:wght@200;400;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* SEUS ESTILOS ATUAIS - mantenha tudo igual */
+        :root {
+            --creme-fundo: #FDFCF9;
+            --terroso-luxo: #94745B;
+            --menta-seco: #8FA38B;
+            --texto: #3E3B39;
+            --branco: #FFFFFF;
+            --bege-claro: #F4F1ED;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--creme-fundo);
+            color: var(--texto);
+            line-height: 1.4;
+            padding-bottom: 100px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--branco);
+        }
+
+        .logo-container { display: flex; justify-content: center; margin-bottom: 15px; }
+        .logo-img { max-width: 180px; height: auto; border-radius: 50%; }
+        .slogan { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; margin: 10px 0; }
+
+        .countdown-container { background: var(--bege-claro); padding: 20px; text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(148, 116, 91, 0.1); }
+        .countdown-title { font-family: 'Lora', 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; letter-spacing: 0.3px; color: var(--terroso-luxo); margin-bottom: 10px; font-weight: 400; line-height: 1.6; }
+        .timer { display: flex; justify-content: center; gap: 15px; }
+        .timer-unit { display: flex; flex-direction: column; align-items: center; min-width: 50px; }
+        .timer-val { font-size: 1.4rem; font-weight: 600; color: var(--texto); }
+        .timer-label { font-size: 0.6rem; text-transform: uppercase; color: var(--menta-seco); }
+
+        nav { position: sticky; top: 15px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); width: fit-content; margin: 0 auto 40px; padding: 8px 30px; border-radius: 50px; display: flex; gap: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); z-index: 1000; border: 1px solid var(--bege-claro); }
+        nav a { text-decoration: none; color: var(--texto); font-size: 0.7rem; letter-spacing: 1.5px; transition: 0.3s; font-weight: 600; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 100px; }
+        .section-header { text-align: center; margin: 60px 0 40px; }
+        .section-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--terroso-luxo); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; align-items: start; }
+        .card { text-align: center; padding: 20px; background: white; border-radius: 12px; border: 1px solid var(--bege-claro); display: flex; flex-direction: column; position: relative; }
+        .card .selector-box:last-of-type { margin-bottom: 10px; }
+        
+        .img-container { width: 100%; height: 220px; overflow: hidden; border-radius: 4px; margin-bottom: 15px; background-color: #f9f9f9; position: relative; }
+        .badge { position: absolute; bottom: 10px; right: 10px; background: rgba(148, 116, 91, 0.9); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; z-index: 10; }
+        
+        .card img { width: 100%; height: 100%; object-fit: cover; }
+        .card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; margin-bottom: 5px; font-weight: 600; color: var(--terroso-luxo); }
+        .product-desc { font-size: 0.75rem; color: #888; margin-bottom: 8px; line-height: 1.4; }
+        
+        .selector-box { text-align: left; font-size: 0.75rem; margin: 10px 0 15px; padding: 12px; background: var(--bege-claro); border-radius: 12px; border: 1px solid rgba(148, 116, 91, 0.1); }
+        .selector-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .controls { display: flex; align-items: center; gap: 10px; }
+        
+        .btn-qty { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--terroso-luxo); background: white; color: var(--terroso-luxo); cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .btn-qty:disabled { border-color: #ccc; color: #ccc; cursor: not-allowed; }
+        .qty-val { font-weight: 600; width: 12px; text-align: center; }
+
+        .btn-add { background: var(--terroso-luxo); color: white; border: none; padding: 12px 25px; border-radius: 50px; cursor: pointer; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; width: 100%; margin-top: auto; }
+
+        .card.esgotado { opacity: 0.6; pointer-events: none; }
+        .card.esgotado .btn-add { background: #bbb; cursor: not-allowed; }
+        .selo-esgotado { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(62, 59, 57, 0.55); display: flex; align-items: center; justify-content: center; z-index: 20; border-radius: 4px; }
+        .selo-esgotado span { background: #E63946; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+        .selo-esgotado-row { background: #E63946; color: white; padding: 2px 8px; border-radius: 50px; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 6px; }
+        .selector-row.row-esgotado { opacity: 0.5; pointer-events: none; }
+        .selector-row.row-esgotado .btn-qty { border-color: #ccc; color: #ccc; cursor: not-allowed; }
+
+        /* CARRINHO E MODAL */
+        .luxury-cart { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--terroso-luxo); border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 2000; transition: 0.3s; cursor: pointer; display: none; border: 2px solid white; overflow: hidden; }
+        .luxury-cart.expandido { width: 320px; height: auto; border-radius: 20px; background: white; padding: 20px; cursor: default; }
+        .cart-icon { display: flex; align-items: center; justify-content: center; height: 60px; font-size: 1.5rem; color: white; }
+        .cart-content { display: none; }
+        .luxury-cart.expandido .cart-content { display: block; }
+        .luxury-cart.expandido .cart-icon { display: none; }
+        
+        .client-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--bege-claro); margin-bottom: 10px; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; outline: none; }
+        .cart-list { max-height: 180px; overflow-y: auto; margin-bottom: 15px; }
+        .cart-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--bege-claro); font-size: 0.8rem; }
+        .total-box { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid var(--bege-claro); padding-top: 10px; }
+        .btn-confirm { background: #25D366; color: white; border: none; padding: 15px; border-radius: 50px; width: 100%; margin-top: 15px; cursor: pointer; font-weight: 600; }
+        .btn-clear { background: transparent; border: 1px solid #E0E0E0; color: #999; padding: 8px; border-radius: 50px; font-size: 0.6rem; cursor: pointer; margin-top: 10px; width: 100%; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 4000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-box { background: var(--branco); padding: 30px; border-radius: 20px; width: 85%; max-width: 340px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .m-btn { flex: 1; padding: 12px; border-radius: 50px; border: none; font-weight: 600; cursor: pointer; font-size: 0.7rem; }
+        .m-btn-no { background: #eee; color: #666; }
+        .m-btn-yes { background: #E63946; color: white; }
+
+        #notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 30px; border-radius: 50px; background: var(--branco); color: var(--terroso-luxo); box-shadow: 0 10px 25px rgba(0,0,0,0.1); font-size: 0.85rem; font-weight: 600; z-index: 3000; display: none; animation: fadeInOut 3s ease forwards; }
+        @keyframes fadeInOut { 0% { top: -50px; opacity: 0; } 15% { top: 20px; opacity: 1; } 85% { top: 20px; opacity: 1; } 100% { top: -50px; opacity: 0; } }
+        @media (max-width: 600px) { .grid { grid-template-columns: repeat(1, 1fr); } }
+    </style>
+</head>
+<body>
+
+<div id="notification"></div>
+
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+        <h3 style="font-family:'Cormorant Garamond'; font-size:1.5rem; color:var(--terroso-luxo)">Limpar Reserva?</h3>
+        <p style="font-size:0.8rem; color:#777">Todos os itens serão removidos do carrinho.</p>
+        <div class="modal-btns">
+            <button class="m-btn m-btn-no" onclick="fecharModal()">Voltar</button>
+            <button class="m-btn m-btn-yes" onclick="confirmarLimpeza()">Sim, Limpar</button>
+        </div>
+    </div>
+</div>
+
+<header>
+    <div class="logo-container"><img src="https://i.pinimg.com/originals/54/2c/45/542c4582ca79a683b61ad28f926f9efd.png" alt="Logo" class="logo-img"></div>
+    <p class="slogan">Onde o menos é, deliciosamente, mais.</p>
+</header>
+
+<div class="countdown-container">
+    <p class="countdown-title">Confeitaria artesanal com doçura na medida certa. Cada produto é feito com ingredientes selecionados e muito carinho.</p>
+</div>
+
+<nav>
+    <a href="#trufas">TRUFAS</a>
+    <a href="#bolos">BOLOS</a>
+    <a href="#combos">COMBOS</a>
+</nav>
+
+<div class="container">
+    <!-- SEÇÃO TRUFAS -->
+    <div id="trufas" class="section-header"><h2>Trufas Artesanais</h2></div>
+    <div id="gridTrufas" class="grid"></div>
+
+    <!-- SEÇÃO BOLOS -->
+    <div id="bolos" class="section-header"><h2>Bolos de Pote</h2></div>
+    <div id="gridBolos" class="grid"></div>
+
+    <!-- SEÇÃO COMBOS -->
+    <div id="combos" class="section-header"><h2>Nossos Combos</h2></div>
+    <div id="gridCombos" class="grid"></div>
+</div>
+
+<div class="luxury-cart" id="cartPanel" onclick="expandirCart()">
+    <div class="cart-icon">🛒</div>
+    <div class="cart-content">
+        <h3>Sua Reserva <span onclick="fecharCart(event)" style="float:right; cursor:pointer;">✕</span></h3>
+        <input type="text" id="clientName" class="client-input" placeholder="Seu nome...">
+        <select id="paymentMethod" class="client-input">
+            <option value="">Forma de Pagamento...</option>
+            <option value="Pix">Pix</option>
+            <option value="Dinheiro">Dinheiro</option>
+        </select>
+        <div id="cartList" class="cart-list"></div>
+        <div class="total-box"><span>Total</span><h4 id="totalVal">R$ 0,00</h4></div>
+        <button class="btn-confirm" onclick="enviar(event)">Finalizar WhatsApp</button>
+        <button class="btn-clear" onclick="abrirModal()">Limpar Tudo 🗑️</button>
+    </div>
+</div>
+
+<script>
+    // ============================================
+    // LOJA DOCE LAGOM - VERSÃO DINÂMICA (com admin)
+    // ============================================
+
+    // ---------- CONSTANTES ----------
+    const STORAGE_PRODUTOS = 'produtos_lagom';
+    const STORAGE_ESTOQUE = 'estoque_lagom';
+    let ESTOQUE_MAX = 10; // será sobrescrito pela configuração do admin
+
+    // ---------- VARIÁVEIS GLOBAIS ----------
+    let qtys = {};          // quantidades selecionadas por variação/produto
+    let cart = [];         // itens no carrinho
+    let total = 0;         // total do carrinho
+    let estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
+
+    // ---------- CARREGAR CONFIGURAÇÃO ----------
+    function carregarConfig() {
+        const config = JSON.parse(localStorage.getItem('config_lagom')) || {};
+        ESTOQUE_MAX = config.estoqueMax || 10;
+    }
+    carregarConfig();
+
+    // ---------- FUNÇÕES DE QUANTIDADE ----------
+    function changeQty(id, delta) {
+        if (!qtys[id]) qtys[id] = 0;
+        let usado = estoqueInterno[id] || 0;
+        if (delta > 0 && (usado + qtys[id]) >= ESTOQUE_MAX) {
+            mostrarMsg("Limite de produção atingido!");
+            return;
+        }
+        let novo = qtys[id] + delta;
+        if (novo >= 0) {
+            qtys[id] = novo;
+            const el = document.getElementById(`qty-${id}`);
+            if (el) el.innerText = novo;
+            const plusBtn = document.getElementById(`plus-${id}`);
+            if (plusBtn) plusBtn.disabled = (usado + novo >= ESTOQUE_MAX);
+        }
+    }
+
+    // ---------- ADICIONAR TRUFA (com variações) ----------
+    function addTrufa(nome, productKey) {
+        const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
+        const produto = produtos.find(p => p.id === productKey);
+        if (!produto || !produto.variacoes) return;
+
+        let added = false;
+        produto.variacoes.forEach(varia => {
+            const q = qtys[varia.key] || 0;
+            if (q > 0) {
+                estoqueInterno[varia.key] = (estoqueInterno[varia.key] || 0) + q;
+                addItemCart(`${q}x Trufa ${varia.tamanho} (${nome})`, q * varia.preco);
+                qtys[varia.key] = 0;
+                const el = document.getElementById(`qty-${varia.key}`);
+                if (el) el.innerText = '0';
+                const plusBtn = document.getElementById(`plus-${varia.key}`);
+                if (plusBtn) plusBtn.disabled = false;
+                added = true;
+            }
+        });
+        if (added) {
+            salvarEstoque();
+            mostrarMsg("✨ Adicionado!");
+        } else {
+            mostrarMsg("Selecione a quantidade!");
+        }
+    }
+
+    // ---------- ADICIONAR ITEM (preço único) ----------
+    function addItem(nome, preco, key) {
+        let q = qtys[key] || 0;
+        if (q === 0) {
+            mostrarMsg("Selecione a quantidade!");
+            return;
+        }
+        estoqueInterno[key] = (estoqueInterno[key] || 0) + q;
+        addItemCart(`${q}x ${nome}`, q * preco);
+        qtys[key] = 0;
+        const el = document.getElementById(`qty-${key}`);
+        if (el) el.innerText = '0';
+        const plusBtn = document.getElementById(`plus-${key}`);
+        if (plusBtn) plusBtn.disabled = false;
+        salvarEstoque();
+        mostrarMsg("✨ Adicionado!");
+    }
+
+    // ---------- CARRINHO ----------
+    function addItemCart(desc, valor) {
+        cart.push({ nome: desc, preco: valor });
+        total += valor;
+        renderCart();
+    }
+
+    function renderCart() {
+        const panel = document.getElementById('cartPanel');
+        panel.style.display = cart.length > 0 ? 'block' : 'none';
+        const list = document.getElementById('cartList');
+        list.innerHTML = cart.map(i => `<div class="cart-item"><span>${i.nome}</span><strong>R$ ${i.preco.toFixed(2)}</strong></div>`).join('');
+        document.getElementById('totalVal').innerText = `R$ ${total.toFixed(2)}`;
+    }
+
+    // ---------- NOTIFICAÇÕES ----------
+    function mostrarMsg(msg) {
+        const n = document.getElementById('notification');
+        n.innerText = msg;
+        n.style.display = 'block';
+        setTimeout(() => n.style.display = 'none', 2500);
+    }
+
+    // ---------- CARRINHO UI ----------
+    function expandirCart() {
+        if (cart.length > 0) document.getElementById('cartPanel').classList.add('expandido');
+    }
+    function fecharCart(e) {
+        e.stopPropagation();
+        document.getElementById('cartPanel').classList.remove('expandido');
+    }
+    function abrirModal() {
+        document.getElementById('confirmModal').style.display = 'flex';
+    }
+    function fecharModal() {
+        document.getElementById('confirmModal').style.display = 'none';
+    }
+    function confirmarLimpeza() {
+        cart = [];
+        total = 0;
+        renderCart();
+        fecharModal();
+        mostrarMsg("Carrinho limpo!");
+    }
+
+    // ---------- ESTOQUE ----------
+    function salvarEstoque() {
+        localStorage.setItem(STORAGE_ESTOQUE, JSON.stringify(estoqueInterno));
+        verificarEsgotados();
+    }
+
+    // ---------- VERIFICAR PRODUTOS ESGOTADOS ----------
+    function verificarEsgotados() {
+        document.querySelectorAll('.card[data-product-key]').forEach(card => {
+            const key = card.dataset.productKey;
+            const isTrufa = card.dataset.trufa === 'true';
+            const imgContainer = card.querySelector('.img-container');
+            const seloExistente = imgContainer?.querySelector('.selo-esgotado');
+
+            if (isTrufa) {
+                // Para trufas, verificar cada variação
+                const variacoes = card.querySelectorAll('.selector-row[data-size-key]');
+                let todasEsgotadas = true;
+                variacoes.forEach(row => {
+                    const sizeKey = row.dataset.sizeKey;
+                    const usado = estoqueInterno[sizeKey] || 0;
+                    const esgotado = usado >= ESTOQUE_MAX;
+                    if (!esgotado) todasEsgotadas = false;
+                    const seloRow = row.querySelector('.selo-esgotado-row');
+                    if (esgotado) {
+                        row.classList.add('row-esgotado');
+                        if (!seloRow) {
+                            const selo = document.createElement('span');
+                            selo.className = 'selo-esgotado-row';
+                            selo.textContent = 'Esgotado';
+                            row.querySelector('span').after(selo);
+                        }
+                    } else {
+                        row.classList.remove('row-esgotado');
+                        if (seloRow) seloRow.remove();
+                    }
+                });
+
+                if (todasEsgotadas) {
+                    card.classList.add('esgotado');
+                    if (!seloExistente && imgContainer) {
+                        const selo = document.createElement('div');
+                        selo.className = 'selo-esgotado';
+                        selo.innerHTML = '<span>Esgotado</span>';
+                        imgContainer.appendChild(selo);
+                    }
+                    const btn = card.querySelector('.btn-add');
+                    if (btn) btn.textContent = 'Esgotado';
+                } else {
+                    card.classList.remove('esgotado');
+                    if (seloExistente) seloExistente.remove();
+                }
+            } else {
+                const usado = estoqueInterno[key] || 0;
+                if (usado >= ESTOQUE_MAX) {
+                    card.classList.add('esgotado');
+                    if (!seloExistente && imgContainer) {
+                        const selo = document.createElement('div');
+                        selo.className = 'selo-esgotado';
+                        selo.innerHTML = '<span>Esgotado</span>';
+                        imgContainer.appendChild(selo);
+                    }
+                    const btn = card.querySelector('.btn-add');
+                    if (btn) btn.textContent = 'Esgotado';
+                } else {
+                    card.classList.remove('esgotado');
+                    if (seloExistente) seloExistente.remove();
+                }
+            }
+        });
+    }
+
+    // ---------- ENVIAR WHATSAPP ----------
+    function enviar(e) {
+        e.stopPropagation();
+        const nome = document.getElementById('clientName').value;
+        const pg = document.getElementById('paymentMethod').value;
+        if (!nome || !pg) {
+            mostrarMsg("Preencha nome e pagamento!");
+            return;
+        }
+        let msg = `*Reserva Doce Lagom*\n*Cliente:* ${nome}\n*Pagamento:* ${pg}\n\n`;
+        msg += cart.map(i => `• ${i.nome}`).join("\n");
+        msg += `\n\n*Total: R$ ${total.toFixed(2)}*`;
+        // Salvar pedido no localStorage para relatórios
+const pedido = {
+    id: Date.now().toString(),
+    cliente: nome,
+    pagamento: pg,
+    total: total,
+    itens: cart.map(i => i.nome),
+    data: new Date().toISOString(),
+    status: 'pendente'
+};
+
+let pedidos = JSON.parse(localStorage.getItem('pedidos_lagom')) || [];
+pedidos.push(pedido);
+localStorage.setItem('pedidos_lagom', JSON.stringify(pedidos));
+        window.open(`https://wa.me/558393889854?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // ============================================
+    // RENDERIZAÇÃO DOS PRODUTOS (DO LOCALSTORAGE)
+    // ============================================
+
+    function renderizarLoja() {
+        const produtos = JSON.parse(localStorage.getItem(STORAGE_PRODUTOS)) || [];
+        if (produtos.length === 0) {
+            // Se não houver produtos, carrega os padrões (opcional)
+            carregarProdutosPadrao();
+            return;
+        }
+
+        // Filtrar por categoria
+        const trufas = produtos.filter(p => p.categoria === 'trufas');
+        const bolos = produtos.filter(p => p.categoria === 'bolos');
+        const combos = produtos.filter(p => p.categoria === 'combos');
+
+        renderizarGrid('gridTrufas', trufas, true);
+        renderizarGrid('gridBolos', bolos, false);
+        renderizarGrid('gridCombos', combos, false);
+    }
+
+    function renderizarGrid(gridId, produtos, isTrufa) {
+        const grid = document.getElementById(gridId);
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        produtos.forEach(prod => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.productKey = prod.id;
+            if (isTrufa) card.dataset.trufa = 'true';
+
+            // Imagem
+            let imgHTML = `<div class="img-container">`;
+            if (prod.badge) imgHTML += `<div class="badge">${prod.badge}</div>`;
+            imgHTML += `<img src="${prod.imagem || 'https://via.placeholder.com/300'}" onerror="this.src='https://via.placeholder.com/300'">`;
+            imgHTML += `</div>`;
+
+            // Nome e descrição
+            let nomeHTML = `<h3>${prod.nome}</h3>`;
+            let descHTML = `<p class="product-desc">${prod.descricao || ''}</p>`;
+
+            // Variações / Preço único
+            let variacoesHTML = '';
+            let btnHTML = '';
+
+            if (prod.tipoPreco === 'variacoes' && prod.variacoes && prod.variacoes.length > 0) {
+                // Trufas com múltiplos tamanhos
+                variacoesHTML = `<div class="selector-box">`;
+                prod.variacoes.forEach(varia => {
+                    const qtyId = `qty-${varia.key}`;
+                    const plusId = `plus-${varia.key}`;
+                    // Inicializa qtys se não existir
+                    if (!qtys[varia.key]) qtys[varia.key] = 0;
+                    variacoesHTML += `
+                        <div class="selector-row" data-size-key="${varia.key}">
+                            <span>${varia.tamanho} (R$ ${varia.preco.toFixed(2)})</span>
+                            <div class="controls">
+                                <button class="btn-qty" onclick="changeQty('${varia.key}', -1)">-</button>
+                                <span class="qty-val" id="${qtyId}">0</span>
+                                <button class="btn-qty" id="${plusId}" onclick="changeQty('${varia.key}', 1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                variacoesHTML += `</div>`;
+                btnHTML = `<button class="btn-add" onclick="addTrufa('${prod.nome}', '${prod.id}')">Reservar</button>`;
+            } else {
+                // Preço único
+                const qtyId = `qty-${prod.key}`;
+                const plusId = `plus-${prod.key}`;
+                if (!qtys[prod.key]) qtys[prod.key] = 0;
+                variacoesHTML = `
+                    <span style="font-weight:600; margin-bottom:10px; display:block;">R$ ${prod.preco.toFixed(2)}</span>
+                    <div class="selector-box">
+                        <div class="selector-row">
+                            <span>Qtd:</span>
+                            <div class="controls">
+                                <button class="btn-qty" onclick="changeQty('${prod.key}', -1)">-</button>
+                                <span class="qty-val" id="${qtyId}">0</span>
+                                <button class="btn-qty" id="${plusId}" onclick="changeQty('${prod.key}', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                btnHTML = `<button class="btn-add" onclick="addItem('${prod.nome}', ${prod.preco}, '${prod.key}')">Reservar</button>`;
+            }
+
+            card.innerHTML = imgHTML + nomeHTML + descHTML + variacoesHTML + btnHTML;
+            grid.appendChild(card);
+        });
+
+        // Após renderizar, aplicar verificação de estoque
+        verificarEsgotados();
+    }
+
+    // ---------- PRODUTOS PADRÃO (CASO NÃO EXISTAM) ----------
+    function carregarProdutosPadrao() {
+        const produtosPadrao = [
+            // ... (seus produtos padrão) ...
+        ];
+        localStorage.setItem(STORAGE_PRODUTOS, JSON.stringify(produtosPadrao));
+        renderizarLoja();
+    }
+
+    // ---------- EVENTO DE CARREGAMENTO ----------
+    document.addEventListener('DOMContentLoaded', function() {
+        renderizarLoja();
+        // Escuta mudanças no localStorage para atualizar automaticamente (opcional)
+        window.addEventListener('storage', function(e) {
+            if (e.key === STORAGE_PRODUTOS || e.key === STORAGE_ESTOQUE || e.key === 'config_lagom') {
+                if (e.key === 'config_lagom') carregarConfig();
+                estoqueInterno = JSON.parse(localStorage.getItem(STORAGE_ESTOQUE)) || {};
+                renderizarLoja();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
